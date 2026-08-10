@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1120">
+<meta name="description" content="เครื่องมือคำนวณค่า RWL และ Lifting Index ตามสมการ NIOSH Lifting Equation">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NIOSH Calculator">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏋️</text></svg>">
+<title>NIOSH Lifting Equation Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🏋️</div>
+      <div>
+        <h1>NIOSH Lifting Equation Calculator</h1>
+        <p>คำนวณค่า RWL และ Lifting Index ตามสมการ NIOSH</p>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="สลับธีมสว่าง/มืด">🌙</button>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="calc">🔢 คำนวณ</button>
+      <button class="tab-btn" data-tab="ref">📖 ข้อมูลอ้างอิง</button>
+    </div>
+  </div>
+
+  <!-- ============ CALCULATOR PANEL ============ -->
+  <section id="panel-calc">
+    <div class="grid">
+      <div class="card">
+        <h3>⚖️ น้ำหนักวัตถุ</h3>
+        <p class="hint">น้ำหนักจริงของวัตถุที่ทำการยก</p>
+        <div class="field">
+          <label for="weight">Object Weight</label>
+          <div class="input-shell">
+            <input type="number" inputmode="decimal" id="weight" value="10" min="0" max="500" step="0.5">
+            <span class="unit">kg</span>
+          </div>
+        </div>
+        <div class="lc-note">ค่าคงที่ในการยก (Load Constant, <b>LC</b>) = <b>23 kg</b></div>
+      </div>
+
+      <div class="card">
+        <h3>🎚️ ตัวคูณ (Multipliers)</h3>
+        <p class="hint">กรอกค่าตัวคูณแต่ละตัวในช่วง 0.00 – 1.00</p>
+        <div class="mult-grid">
+          <div class="field">
+            <label for="hm">HM — Horizontal</label>
+            <div class="input-shell"><input type="number" inputmode="decimal" id="hm" class="mult" value="1.00" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="field">
+            <label for="vm">VM — Vertical</label>
+            <div class="input-shell"><input type="number" inputmode="decimal" id="vm" class="mult" value="1.00" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="field">
+            <label for="dm">DM — Distance</label>
+            <div class="input-shell"><input type="number" inputmode="decimal" id="dm" class="mult" value="1.00" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="field">
+            <label for="am">AM — Asymmetric</label>
+            <div class="input-shell"><input type="number" inputmode="decimal" id="am" class="mult" value="1.00" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="field">
+            <label for="fm">FM — Frequency</label>
+            <div class="input-shell"><input type="number" inputmode="decimal" id="fm" class="mult" value="1.00" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="field">
+            <label for="cm">CM — Coupling</label>
+            <div class="input-shell"><input type="number" inputmode="decimal" id="cm" class="mult" value="1.00" min="0" max="1" step="0.01"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card results-card">
+      <h3>📊 ผลการคำนวณ</h3>
+      <p class="hint">อัปเดตอัตโนมัติเมื่อเปลี่ยนค่าด้านบน</p>
+
+      <div class="results-top">
+        <div class="metric-box">
+          <div class="metric-label">RWL (Recommended Weight Limit)</div>
+          <div class="metric-value" id="rwlValue">23.00 kg</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">LI (Lifting Index)</div>
+          <div class="metric-value" id="liValue">0.43</div>
+        </div>
+      </div>
+
+      <div class="gauge-wrap">
+        <div class="gauge-track">
+          <div class="gauge-fill" id="gaugeFill"></div>
+          <div class="gauge-marker" id="gaugeMarker"></div>
+        </div>
+        <div class="gauge-labels">
+          <span>0</span><span>1 (ปลอดภัย)</span><span>3+ (อันตราย)</span>
+        </div>
+      </div>
+
+      <div class="banner success" id="banner">
+        <span class="emoji" id="bannerEmoji">✅</span>
+        <span id="bannerText">ไม่ต้องมีการปรับปรุงแก้ไข</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REFERENCE PANEL ============ -->
+  <section id="panel-ref" class="hidden">
+    <div class="ref-grid">
+      <div class="card">
+        <h3>สูตรการคำนวณ</h3>
+        <div class="formula-line">LC (Load Constant) = 23 kg</div>
+        <div class="formula-line">RWL = LC × HM × VM × DM × AM × FM × CM</div>
+        <div class="formula-line">LI = น้ำหนักวัตถุ (Object Weight) / RWL</div>
+      </div>
+      <div class="card">
+        <h3>เกณฑ์การประเมินค่า LI</h3>
+        <table>
+          <thead>
+            <tr><th>ค่า LI</th><th>ระดับความเสี่ยง</th><th>คำแนะนำ</th></tr>
+          </thead>
+          <tbody>
+            <tr class="row-success"><td data-label="ค่า LI">LI &lt; 1</td><td data-label="ระดับความเสี่ยง">ปลอดภัย</td><td data-label="คำแนะนำ">ไม่ต้องมีการปรับปรุงแก้ไข</td></tr>
+            <tr class="row-warning"><td data-label="ค่า LI">1 ≤ LI &lt; 3</td><td data-label="ระดับความเสี่ยง">ปานกลาง</td><td data-label="คำแนะนำ">ต้องมีการปรับปรุงงาน/วิธีการทำงาน</td></tr>
+            <tr class="row-danger"><td data-label="ค่า LI">LI ≥ 3</td><td data-label="ระดับความเสี่ยง">อันตราย</td><td data-label="คำแนะนำ">ห้ามปฏิบัติงานนั้นๆ จนกว่าจะได้รับการแก้ไข</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>NIOSH Lifting Equation Calculator — คำนวณเพื่อการประเมินเบื้องต้นเท่านั้น</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
