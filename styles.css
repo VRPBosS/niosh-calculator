@@ -177,11 +177,18 @@ body {
 }
 
 /* ---------- Cards / grid ---------- */
+/* Consistent 20px rhythm between every top-level card/grid in a tab,
+   so sections never end up flush against each other regardless of order. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 20px;
-  margin-bottom: 20px;
 }
 @media (max-width: 760px) {
   .grid { grid-template-columns: 1fr; }
@@ -326,7 +333,6 @@ input.mult,
 }
 
 /* ---------- Results ---------- */
-.results-card { margin-bottom: 20px; }
 .results-top {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -489,7 +495,6 @@ tr.row-danger td:first-child { color: var(--danger); font-weight: 700; }
 }
 
 /* ---------- History / saved records ---------- */
-.history-card { margin-bottom: 20px; }
 .history-head {
   display: flex;
   justify-content: space-between;
