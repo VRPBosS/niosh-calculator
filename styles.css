@@ -281,15 +281,12 @@ label {
 }
 input[type=number]::-webkit-inner-spin-button { opacity: 1; }
 
-/* Multiplier fields (HM/VM/DM/AM/FM/CM) and tenure: plain numeric entry, no spinner arrows. */
-input.mult::-webkit-outer-spin-button,
-input.mult::-webkit-inner-spin-button,
+/* Tenure: plain numeric entry, no spinner arrows. */
 #tenure::-webkit-outer-spin-button,
 #tenure::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input.mult,
 #tenure {
   -moz-appearance: textfield;
 }
