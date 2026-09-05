@@ -13,9 +13,9 @@ const interpretationNote = document.getElementById('interpretationNote');
 // Extended plain-language explanation + guidance shown under the banner, kept
 // in sync with the "คำอธิบายเพิ่มเติม" column of the LI criteria table in index.html.
 const LI_EXPLANATIONS = {
-  success: 'ระดับความเสี่ยงต่ำ (Low Risk) — งานยกนี้อยู่ในเกณฑ์ปลอดภัยสำหรับพนักงานเกือบทั้งหมด ไม่ก่อให้เกิดความเสี่ยงต่อการบาดเจ็บของระบบกล้ามเนื้อและกระดูก (MSDs) อย่างมีนัยสำคัญ ควรคงมาตรฐานท่าทางการทำงานปัจจุบันไว้และติดตามผลเป็นระยะ',
-  warning: 'ระดับความเสี่ยงปานกลาง (Moderate Risk) — งานยกนี้อาจก่อให้เกิดความเสี่ยงต่อการบาดเจ็บหลังส่วนล่างในพนักงานบางส่วน โดยเฉพาะผู้ที่มีสมรรถภาพร่างกายต่ำกว่าเกณฑ์ ควรปรับลดระยะทาง/น้ำหนักยก ปรับความสูงจุดยก ลดความถี่ หรือใช้อุปกรณ์ช่วยผ่อนแรง',
-  danger: 'ระดับความเสี่ยงสูง (High Risk) — งานยกนี้มีความเสี่ยงสูงต่อการบาดเจ็บของกล้ามเนื้อและกระดูกสันหลังส่วนล่างสำหรับพนักงานส่วนใหญ่ ควรหยุดปฏิบัติงานทันทีและปรับปรุงอย่างเร่งด่วน เช่น ลดน้ำหนักวัตถุ ใช้อุปกรณ์ทุ่นแรงหรือเครื่องจักรช่วยยก ก่อนกลับมาปฏิบัติงาน',
+  success: 'เสี่ยงต่ำ (Low Risk) — LI ≤ 1.0 ปลอดภัยสำหรับคนส่วนใหญ่ ไม่ต้องมีการปรับปรุงแก้ไข',
+  warning: 'เสี่ยงเพิ่มขึ้น (Increased Risk) — LI 1.0–3.0 ควรปรับปรุงงาน เช่น ลดระยะ horizontal ยกระดับชั้นวาง หรือลดความถี่',
+  danger: 'เสี่ยงสูง (High Risk) — LI > 3.0 ต้องออกแบบงานใหม่ทันที ก่อนให้พนักงานกลับมาปฏิบัติงานเดิม',
 };
 
 // Personal-info fields — identification only, no effect on the calculation.
@@ -46,11 +46,11 @@ function recalc() {
 
   let level, emoji, text;
   if (li < 1) {
-    level = 'success'; emoji = '✅'; text = 'ไม่ต้องมีการปรับปรุงแก้ไข';
+    level = 'success'; emoji = '✅'; text = 'เสี่ยงต่ำ สำหรับคนส่วนใหญ่';
   } else if (li < 3) {
-    level = 'warning'; emoji = '⚠️'; text = 'ต้องมีการปรับปรุงงาน/วิธีการทำงาน';
+    level = 'warning'; emoji = '⚠️'; text = 'เสี่ยงเพิ่มขึ้น ควรปรับปรุงงาน';
   } else {
-    level = 'danger'; emoji = '🛑'; text = 'ห้ามปฏิบัติงานนั้นๆ จนกว่าจะได้รับการแก้ไข';
+    level = 'danger'; emoji = '🛑'; text = 'เสี่ยงสูง ต้องออกแบบงานใหม่ทันที';
   }
 
   banner.className = 'banner ' + level;
@@ -196,6 +196,15 @@ function csvField(value) {
   return '"' + String(value).replace(/"/g, '""') + '"';
 }
 
+// iOS/iPadOS Safari ignores the `download` attribute for blob: URLs and instead
+// hands the file off to whatever app claims the CSV type, which looks like an
+// unrelated app "popping up". Opening the blob in a new tab instead lets the
+// user save it themselves via the native Share sheet (Share > Save to Files).
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
 function exportHistoryToCsv() {
   const history = loadHistory();
   if (history.length === 0) return;
@@ -215,6 +224,13 @@ function exportHistoryToCsv() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+
+  if (isIOS()) {
+    window.open(url, '_blank');
+    alert('เปิดไฟล์ในแท็บใหม่แล้ว กดปุ่มแชร์ (ไอคอนสี่เหลี่ยมมีลูกศร) แล้วเลือก "บันทึกลงใน Files" เพื่อบันทึกไฟล์');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    return;
+  }
 
   const a = document.createElement('a');
   a.href = url;
