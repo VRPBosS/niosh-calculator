@@ -33,7 +33,7 @@ let current = null;
 
 function recalc() {
   const weight = parseFloat(weightEl.value) || 0;
-  const mults = multIds.map(id => clamp(parseFloat(document.getElementById(id).value) || 0, 0, 1));
+  const mults = multIds.map(id => Math.max(0, parseFloat(document.getElementById(id).value) || 0));
   const rwl = LC * mults.reduce((a, b) => a * b, 1);
   const li = rwl > 0 ? weight / rwl : Infinity;
 
@@ -60,10 +60,10 @@ function recalc() {
   interpretationNote.className = 'interpretation-note ' + level;
   interpretationNote.textContent = LI_EXPLANATIONS[level];
 
-  // clamp inputs visually if user typed out-of-range multiplier values
+  // disallow negative multiplier values; any non-negative number is otherwise accepted
   multIds.forEach(id => {
     const el = document.getElementById(id);
-    const v = clamp(parseFloat(el.value) || 0, 0, 1);
+    const v = Math.max(0, parseFloat(el.value) || 0);
     if (parseFloat(el.value) !== v && document.activeElement !== el) el.value = v.toFixed(2);
   });
 
@@ -73,6 +73,10 @@ function recalc() {
 [weightEl, ...multIds.map(id => document.getElementById(id))].forEach(el => {
   el.addEventListener('input', recalc);
 });
+
+// correct a negative multiplier back to 0 as soon as the field is left,
+// rather than waiting for some other field's input event to trigger it
+multIds.forEach(id => document.getElementById(id).addEventListener('blur', recalc));
 
 // Tabs
 document.querySelectorAll('.tab-btn').forEach(btn => {

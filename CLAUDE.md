@@ -24,7 +24,7 @@ then open `c`. Opening `index.html` directly via `file://` also works since the 
 
 ## Architecture
 
-**Calculation model** (`script.js`): `RWL = LC * HM * VM * DM * AM * FM * CM` (LC is the fixed Load Constant, 23 kg), and `LI = object weight / RWL`. All six multiplier inputs (`hm`, `vm`, `dm`, `am`, `fm`, `cm`) are clamped to `[0, 1]` in `recalc()`. Every input's `input` event triggers a full `recalc()` — there is no separate state layer, the DOM inputs are the source of truth and DOM elements are updated directly (no framework/virtual DOM).
+**Calculation model** (`script.js`): `RWL = LC * HM * VM * DM * AM * FM * CM` (LC is the fixed Load Constant, 23 kg), and `LI = object weight / RWL`. All six multiplier inputs (`hm`, `vm`, `dm`, `am`, `fm`, `cm`) are clamped to a minimum of `0` (no upper bound) in `recalc()` — users may intentionally enter values above 1. Every input's `input` event triggers a full `recalc()` — there is no separate state layer, the DOM inputs are the source of truth and DOM elements are updated directly (no framework/virtual DOM).
 
 **LI risk thresholds** are duplicated in two places and must be kept in sync if changed:
 - `script.js` `recalc()` — drives the live banner color/text and gauge position
