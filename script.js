@@ -205,7 +205,7 @@ function isIOS() {
     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 }
 
-function exportHistoryToCsv() {
+async function exportHistoryToCsv() {
   const history = loadHistory();
   if (history.length === 0) return;
 
@@ -222,8 +222,25 @@ function exportHistoryToCsv() {
   // UTF-8 BOM so Excel renders Thai text correctly.
   const csv = '﻿' + [header, ...rows].map(row => row.map(csvField).join(',')).join('\r\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  const filename = `niosh-lifting-history-${stamp}.csv`;
+
+  // A blob opened as a tab is just a webpage to iOS Safari's share sheet
+  // (no "Save to Files" option). Sharing an actual File makes Safari treat
+  // it as a real document, which does offer "Save to Files".
+  if (isIOS() && navigator.canShare) {
+    const file = new File([blob], filename, { type: 'text/csv' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file] });
+      } catch (err) {
+        if (err.name !== 'AbortError') alert('แชร์ไฟล์ไม่สำเร็จ: ' + err.message);
+      }
+      return;
+    }
+  }
+
+  const url = URL.createObjectURL(blob);
 
   if (isIOS()) {
     window.open(url, '_blank');
@@ -234,7 +251,7 @@ function exportHistoryToCsv() {
 
   const a = document.createElement('a');
   a.href = url;
-  a.download = `niosh-lifting-history-${stamp}.csv`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
