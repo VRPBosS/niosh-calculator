@@ -13,9 +13,9 @@ const interpretationNote = document.getElementById('interpretationNote');
 // Extended plain-language explanation + guidance shown under the banner, kept
 // in sync with the "คำอธิบายเพิ่มเติม" column of the LI criteria table in index.html.
 const LI_EXPLANATIONS = {
-  success: 'เสี่ยงต่ำ (Low Risk) — LI ≤ 1.0 ปลอดภัยสำหรับคนส่วนใหญ่ ไม่ต้องมีการปรับปรุงแก้ไข',
-  warning: 'เสี่ยงเพิ่มขึ้น (Increased Risk) — LI 1.0–3.0 ควรปรับปรุงงาน เช่น ลดระยะ horizontal ยกระดับชั้นวาง หรือลดความถี่',
-  danger: 'เสี่ยงสูง (High Risk) — LI > 3.0 ต้องออกแบบงานใหม่ทันที ก่อนให้พนักงานกลับมาปฏิบัติงานเดิม',
+  success: 'ความเสี่ยงต่ำ (Low Risk) — LI < 1 เป็นงานที่มีความเสี่ยงต่ำ มีโอกาสเกิดอันตรายน้อย ไม่จำเป็นต้องปรับปรุงงานเพิ่มเติม แต่ควรรักษามาตรการป้องกันอันตรายที่มีอยู่',
+  warning: 'ความเสี่ยงปานกลาง (Moderate Risk) — 1 ≤ LI < 3 เป็นงานที่มีความเสี่ยงเพิ่มขึ้น อาจก่อให้เกิดอันตรายต่อผู้ปฏิบัติงาน จึงควรปรับปรุงวิธีการทำงาน เช่น ลดระยะการเอื้อม ลดการยกของสูง และลดความถี่ในการทำงานซ้ำ ๆ',
+  danger: 'ความเสี่ยงสูง (High Risk) — LI ≥ 3 เป็นงานที่มีความเสี่ยงสูง อาจก่อให้เกิดอันตรายหรือการบาดเจ็บต่อผู้ปฏิบัติงาน ควรเร่งปรับปรุงวิธีการทำงานทันที ก่อนให้พนักงานกลับมาปฏิบัติงานตามปกติ',
 };
 
 // Personal-info fields — identification only, no effect on the calculation.
@@ -46,11 +46,11 @@ function recalc() {
 
   let level, emoji, text;
   if (li < 1) {
-    level = 'success'; emoji = '✅'; text = 'เสี่ยงต่ำ สำหรับคนส่วนใหญ่';
+    level = 'success'; emoji = '✅'; text = 'ความเสี่ยงต่ำ';
   } else if (li < 3) {
-    level = 'warning'; emoji = '⚠️'; text = 'เสี่ยงเพิ่มขึ้น ควรปรับปรุงงาน';
+    level = 'warning'; emoji = '⚠️'; text = 'ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน';
   } else {
-    level = 'danger'; emoji = '🛑'; text = 'เสี่ยงสูง ต้องออกแบบงานใหม่ทันที';
+    level = 'danger'; emoji = '🛑'; text = 'ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที';
   }
 
   banner.className = 'banner ' + level;
