@@ -39,3 +39,5 @@ then open `c`. Opening `index.html` directly via `file://` also works since the 
 ## Deployment
 
 The site is deployed as a static GitHub Pages site (`main` branch, root folder) at `https://vrpboss.github.io/niosh-calculator/`. Publishing an update means committing changed files to `main` on that repo — there is no CI/build pipeline in between.
+
+**Cache-busting**: `index.html` references `styles.css?v=YYYYMMDD` and `script.js?v=YYYYMMDD`. Bump both version strings whenever `styles.css` or `script.js` changes, otherwise mobile browsers may keep serving the cached old files.
