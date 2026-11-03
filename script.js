@@ -5,12 +5,9 @@ const rwlValue = document.getElementById('rwlValue');
 const liValue = document.getElementById('liValue');
 const gaugeFill = document.getElementById('gaugeFill');
 const gaugeMarker = document.getElementById('gaugeMarker');
-const banner = document.getElementById('banner');
-const bannerText = document.getElementById('bannerText');
-const bannerEmoji = document.getElementById('bannerEmoji');
 const interpretationNote = document.getElementById('interpretationNote');
 
-// Extended plain-language explanation + guidance shown under the banner, kept
+// Extended plain-language explanation + guidance shown under the gauge, kept
 // in sync with the "คำอธิบายเพิ่มเติม" column of the LI criteria table in index.html.
 const LI_EXPLANATIONS = {
   success: 'ความเสี่ยงต่ำ (Low Risk) — LI < 1 เป็นงานที่มีความเสี่ยงต่ำ มีโอกาสเกิดอันตรายน้อย ไม่จำเป็นต้องปรับปรุงงานเพิ่มเติม แต่ควรรักษามาตรการป้องกันอันตรายที่มีอยู่',
@@ -44,18 +41,15 @@ function recalc() {
   gaugeFill.style.width = pct + '%';
   gaugeMarker.style.left = pct + '%';
 
-  let level, emoji, text;
+  let level, text;
   if (li < 1) {
-    level = 'success'; emoji = '✅'; text = 'ความเสี่ยงต่ำ';
+    level = 'success'; text = 'ความเสี่ยงต่ำ';
   } else if (li < 3) {
-    level = 'warning'; emoji = '⚠️'; text = 'ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน';
+    level = 'warning'; text = 'ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน';
   } else {
-    level = 'danger'; emoji = '🛑'; text = 'ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที';
+    level = 'danger'; text = 'ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที';
   }
 
-  banner.className = 'banner ' + level;
-  bannerEmoji.textContent = emoji;
-  bannerText.textContent = text;
   liValue.style.color = 'var(--' + level + ')';
   interpretationNote.className = 'interpretation-note ' + level;
   interpretationNote.textContent = LI_EXPLANATIONS[level];
