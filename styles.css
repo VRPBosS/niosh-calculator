@@ -279,6 +279,24 @@ label {
   font-weight: 600;
   white-space: nowrap;
 }
+.input-shell textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  /* 16px min prevents iOS Safari from auto-zooming on focus */
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 12px;
+  width: 100%;
+  min-height: 96px;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+}
+.suggestion-field { margin-top: 16px; margin-bottom: 0; }
+.suggestion-cell { min-width: 180px; white-space: pre-wrap; }
 input[type=number]::-webkit-inner-spin-button { opacity: 1; }
 
 /* Tenure: plain numeric entry, no spinner arrows. */

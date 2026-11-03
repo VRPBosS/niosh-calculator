@@ -21,6 +21,8 @@ const empIdEl = document.getElementById('empId');
 const genderEl = document.getElementById('gender');
 const tenureEl = document.getElementById('tenure');
 const departmentEl = document.getElementById('department');
+// Free-text suggestion — saved with the history record, no effect on the calculation.
+const suggestionEl = document.getElementById('suggestion');
 
 // Latest computed result, kept in sync by recalc() so saveRecord() can read it.
 let current = null;
@@ -120,6 +122,11 @@ function saveHistory(history) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 }
 
+// Suggestion is free-form text, so it must be escaped before going into innerHTML.
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 function renderHistory() {
   const history = loadHistory();
   const hasRecords = history.length > 0;
@@ -148,6 +155,7 @@ function renderHistory() {
       <td data-label="RWL (kg)">${r.rwl.toFixed(2)}</td>
       <td data-label="LI">${liText}</td>
       <td data-label="ระดับความเสี่ยง" class="risk-${r.level}">${r.text}</td>
+      <td data-label="ข้อเสนอแนะ" class="suggestion-cell">${r.suggestion ? escapeHtml(r.suggestion) : '-'}</td>
       <td data-label="ลบ"><button class="row-delete-btn" data-id="${r.id}" title="ลบรายการนี้">🗑️</button></td>
     </tr>`;
   }).join('');
@@ -170,6 +178,7 @@ function saveRecord() {
     li: current.li,
     level: current.level,
     text: current.text,
+    suggestion: suggestionEl.value.trim(),
   });
   saveHistory(history);
   renderHistory();
@@ -203,13 +212,13 @@ async function exportHistoryToCsv() {
   const history = loadHistory();
   if (history.length === 0) return;
 
-  const header = ['เวลาที่บันทึก', 'รหัสพนักงาน', 'เพศ', 'อายุงาน (ปี)', 'แผนก', 'น้ำหนัก (kg)', 'HM', 'VM', 'DM', 'AM', 'FM', 'CM', 'RWL (kg)', 'LI', 'ระดับความเสี่ยง'];
+  const header = ['เวลาที่บันทึก', 'รหัสพนักงาน', 'เพศ', 'อายุงาน (ปี)', 'แผนก', 'น้ำหนัก (kg)', 'HM', 'VM', 'DM', 'AM', 'FM', 'CM', 'RWL (kg)', 'LI', 'ระดับความเสี่ยง', 'ข้อเสนอแนะ'];
   const rows = history.map(r => {
     const [hm, vm, dm, am, fm, cm] = r.mults;
     const liText = isFinite(r.li) ? r.li.toFixed(2) : 'inf';
     return [
       r.savedAtLabel, r.empId || '', r.gender || '', typeof r.tenure === 'number' ? r.tenure.toFixed(1) : '', r.department || '',
-      r.weight.toFixed(2), hm.toFixed(2), vm.toFixed(2), dm.toFixed(2), am.toFixed(2), fm.toFixed(2), cm.toFixed(2), r.rwl.toFixed(2), liText, r.text,
+      r.weight.toFixed(2), hm.toFixed(2), vm.toFixed(2), dm.toFixed(2), am.toFixed(2), fm.toFixed(2), cm.toFixed(2), r.rwl.toFixed(2), liText, r.text, r.suggestion || '',
     ];
   });
 
