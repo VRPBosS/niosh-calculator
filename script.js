@@ -3,11 +3,12 @@ const weightEl = document.getElementById('weight');
 const multIds = ['hm', 'vm', 'dm', 'am', 'fm', 'cm'];
 const rwlValue = document.getElementById('rwlValue');
 const liValue = document.getElementById('liValue');
-const gaugeFill = document.getElementById('gaugeFill');
-const gaugeMarker = document.getElementById('gaugeMarker');
+const banner = document.getElementById('banner');
+const bannerText = document.getElementById('bannerText');
+const bannerEmoji = document.getElementById('bannerEmoji');
 const interpretationNote = document.getElementById('interpretationNote');
 
-// Extended plain-language explanation + guidance shown under the gauge, kept
+// Extended plain-language explanation + guidance shown under the banner, kept
 // in sync with the "คำอธิบายเพิ่มเติม" column of the LI criteria table in index.html.
 const LI_EXPLANATIONS = {
   success: 'ความเสี่ยงต่ำ (Low Risk) — LI < 1 เป็นงานที่มีความเสี่ยงต่ำ มีโอกาสเกิดอันตรายน้อย ไม่จำเป็นต้องปรับปรุงงานเพิ่มเติม แต่ควรรักษามาตรการป้องกันอันตรายที่มีอยู่',
@@ -21,10 +22,6 @@ const genderEl = document.getElementById('gender');
 const tenureEl = document.getElementById('tenure');
 const departmentEl = document.getElementById('department');
 
-function clamp(v, min, max) {
-  return Math.min(max, Math.max(min, v));
-}
-
 // Latest computed result, kept in sync by recalc() so saveRecord() can read it.
 let current = null;
 
@@ -37,19 +34,18 @@ function recalc() {
   rwlValue.textContent = rwl.toFixed(2) + ' kg';
   liValue.textContent = isFinite(li) ? li.toFixed(2) : '∞';
 
-  const pct = clamp(li, 0, 3) / 3 * 100;
-  gaugeFill.style.width = pct + '%';
-  gaugeMarker.style.left = pct + '%';
-
-  let level, text;
+  let level, emoji, text;
   if (li < 1) {
-    level = 'success'; text = 'ความเสี่ยงต่ำ';
+    level = 'success'; emoji = '✅'; text = 'ความเสี่ยงต่ำ';
   } else if (li < 3) {
-    level = 'warning'; text = 'ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน';
+    level = 'warning'; emoji = '⚠️'; text = 'ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน';
   } else {
-    level = 'danger'; text = 'ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที';
+    level = 'danger'; emoji = '🛑'; text = 'ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที';
   }
 
+  banner.className = 'banner ' + level;
+  bannerEmoji.textContent = emoji;
+  bannerText.textContent = text;
   liValue.style.color = 'var(--' + level + ')';
   interpretationNote.className = 'interpretation-note ' + level;
   interpretationNote.textContent = LI_EXPLANATIONS[level];
