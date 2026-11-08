@@ -127,8 +127,10 @@ input[type=range] { accent-color: var(--ink); }
 /* ---------- Layout ---------- */
 .calc {
   max-width: 1240px; width: 100%; margin: 0 auto; padding: 28px 24px 64px;
-  display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;
+  display: flex; flex-direction: column; gap: 28px;
 }
+/* The sticky result aside lives in its own row so it stops sticking before the history section. */
+.calc-row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
 .col-main { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 .aside { flex: 1 1 320px; min-width: 0; position: sticky; top: 20px; display: flex; flex-direction: column; gap: 16px; }
 .ref { max-width: 880px; width: 100%; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-direction: column; gap: 20px; }
@@ -284,7 +286,7 @@ footer {
 .save-btn:hover { opacity: 0.88; }
 
 /* ---------- History ---------- */
-.history { flex: 1 1 100%; display: flex; flex-direction: column; gap: 16px; }
+.history { display: flex; flex-direction: column; gap: 16px; }
 .history-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .history-head h2 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 .history-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -359,6 +361,7 @@ footer {
 @media (max-width: 560px) {
   .topbar-in { padding: 14px 16px; }
   .calc { padding: 18px 16px 48px; gap: 20px; }
+  .calc-row { gap: 20px; }
   .ref { padding: 20px 16px 48px; }
   .card { padding: 18px 16px; }
   .hero { padding: 20px 18px; }
