@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="NIOSH Calculator">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏋️</text></svg>">
 <title>NIOSH Lifting Equation Calculator</title>
-<link rel="stylesheet" href="styles.css?v=20261108">
+<link rel="stylesheet" href="styles.css?v=20261108c">
 </head>
 <body>
 <div class="page">
@@ -115,6 +115,11 @@
           <div class="field">
             <label for="am">AM — Asymmetric Multiplier</label>
             <div class="input-shell"><input type="text" inputmode="decimal" id="am" class="mult" value="1.00"></div>
+            <div class="raw-row">
+              <span class="raw-label">A</span>
+              <div class="input-shell"><input type="text" inputmode="decimal" id="rawA" class="raw-input" placeholder="A — มุมบิดลำตัว"><span class="unit">องศา</span></div>
+            </div>
+            <p class="mini-hint">กรอก A เพื่อคำนวณ AM = 1 − 0.0032 × A หรือกรอกค่า AM เองก็ได้</p>
           </div>
           <div class="field">
             <label for="fm">FM — Frequency Multiplier</label>
@@ -329,6 +334,6 @@
   <footer>NIOSH Lifting Equation Calculator — คำนวณเพื่อการประเมินเบื้องต้นเท่านั้น</footer>
 </div>
 
-<script src="script.js?v=20261108"></script>
+<script src="script.js?v=20261108c"></script>
 </body>
 </html>

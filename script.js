@@ -73,6 +73,7 @@ const RAW_INPUTS = [
   { raw: 'rawH', target: 'hm', calc: h => 25 / h, valid: h => h > 0 },
   { raw: 'rawV', target: 'vm', calc: v => 1 - 0.003 * Math.abs(v - 75), valid: () => true },
   { raw: 'rawD', target: 'dm', calc: d => 0.82 + 4.5 / d, valid: d => d > 0 },
+  { raw: 'rawA', target: 'am', calc: a => 1 - 0.0032 * Math.abs(a), valid: () => true },
 ];
 
 RAW_INPUTS.forEach(cfg => {
