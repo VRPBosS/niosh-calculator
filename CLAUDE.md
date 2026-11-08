@@ -24,17 +24,21 @@ then open `c`. Opening `index.html` directly via `file://` also works since the 
 
 ## Architecture
 
-**Calculation model** (`script.js`): `RWL = LC * HM * VM * DM * AM * FM * CM` (LC is the fixed Load Constant, 23 kg), and `LI = object weight / RWL`. All six multiplier inputs (`hm`, `vm`, `dm`, `am`, `fm`, `cm`) are clamped to a minimum of `0` (no upper bound) in `recalc()` — users may intentionally enter values above 1. Every input's `input` event triggers a full `recalc()` — there is no separate state layer, the DOM inputs are the source of truth and DOM elements are updated directly (no framework/virtual DOM).
+**Calculation model** (`script.js`): `RWL = LC * HM * VM * DM * AM * FM * CM` (LC is the fixed Load Constant, 23 kg), and `LI = object weight / RWL`. The user no longer types multipliers: the inputs are raw measurements held in the `S` state object — `H`, `V`, `D` (cm) and `A` (degrees) feed HM/VM/DM/AM via the NIOSH sub-formulas (with the standard validity limits, e.g. H > 63 → HM = 0), while FM comes from the frequency chips + duration + (V < 75 / ≥ 75) lookup in the `FM` table, and CM from the coupling choice (`CPL`, also V-dependent). `calc()` computes everything from `S`; `update()` pushes the result into the DOM; any input calls `changed()` → `update()`. There is no framework — controls are built once at load and only their text/classes/styles are updated, so typing never loses focus.
 
 **LI risk thresholds** are duplicated in two places and must be kept in sync if changed:
-- `script.js` `recalc()` — drives the live banner color/text and gauge position
-- `index.html` reference tab table — static description of the same thresholds
+- `script.js` `calc()` (`riskKey`) — drives the result card, gauge marker and mobile bar
+- `index.html` reference tab "เกณฑ์การประเมินค่า LI" — static description of the same thresholds
 
-**Theming**: `styles.css` defines light-mode variables on `:root` and overrides them under `:root[data-theme="dark"]`. The active theme is a `data-theme` attribute on `<html>`, toggled by `script.js` and persisted to `localStorage` (`niosh-theme`), falling back to `prefers-color-scheme` on first visit.
+**Design**: the UI follows the Claude Design project "NIOSH Lifting Calculator" (IBM Plex Sans Thai / Mono, numbered cards 01–05, sticky dark result card, breakdown bars, auto improvement tips, mobile bottom bar). The mobile bottom bar (`checkBar()` in `script.js`) shows RWL/LI only when the result `<aside>` has wrapped below the form and is still off-screen.
 
-**Tabs**: The "คำนวณ" (calculator) and "ข้อมูลอ้างอิง" (reference) panels are both always in the DOM; `script.js` toggles a `.hidden` class rather than routing or lazy-loading content.
+**Saved history**: stored in `localStorage` key `niosh-history`; each record keeps `mults` as `[HM, VM, DM, AM, FM, CM]` and `level` as `success|warning|danger` so older records keep rendering. All free text is passed through `escapeHtml()` before going into `innerHTML`.
 
-**Responsive behavior**: Mobile/tablet support relies entirely on CSS media queries in `styles.css` (breakpoints at 760px, 600px, 560px, 480px, 420px) — there is no JS-based viewport logic. Below 560px the reference table switches from a `<table>` layout to a stacked card layout using `data-label` attributes on `<td>` elements (see the `@media (max-width: 560px)` block); if columns are added/removed from the table, update both the `<thead>`/`<td data-label>` pairs and this CSS block together.
+**Theming**: `styles.css` defines light-mode tokens on `:root` and overrides them under `:root[data-theme="dark"]`. The active theme is a `data-theme` attribute on `<html>`, toggled by `script.js` and persisted to `localStorage` (`niosh-theme`), falling back to `prefers-color-scheme` on first visit.
+
+**Tabs**: The "คำนวณ" (calculator) and "ข้อมูลอ้างอิง" (reference) panels are both always in the DOM; `script.js` toggles the `hidden` attribute rather than routing or lazy-loading content.
+
+**Responsive behavior**: layout relies on flex-wrap / `auto-fit` grids (the result `<aside>` wraps under the form on narrow screens) plus one `@media (max-width: 560px)` block in `styles.css` for tighter padding. There is no JS-based viewport logic except the bottom-bar visibility check above.
 
 ## Deployment
 

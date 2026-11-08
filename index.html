@@ -1,339 +1,238 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="dark">
+<html lang="th" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b1120">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5f4f1">
 <meta name="description" content="เครื่องมือคำนวณค่า RWL และ Lifting Index ตามสมการ NIOSH Lifting Equation">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="NIOSH Calculator">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏋️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>NIOSH Lifting Equation Calculator</title>
-<link rel="stylesheet" href="styles.css?v=20261108c">
+<link rel="stylesheet" href="styles.css?v=20261108d">
 </head>
 <body>
-<div class="page">
+<div class="app">
 
-  <div class="topbar">
-    <div class="brand">
-      <div class="brand-icon">🏋️</div>
-      <div>
-        <h1>NIOSH Lifting Equation Calculator</h1>
-        <p>คำนวณค่า RWL และ Lifting Index ตามสมการ NIOSH</p>
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">
+        <div class="brand-mark">LI</div>
+        <div class="brand-text">
+          <h1>NIOSH Lifting Equation</h1>
+          <p>ประเมินความเสี่ยงงานยกด้วยค่า RWL และ Lifting Index</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <nav class="seg" aria-label="เมนู">
+          <button type="button" class="seg-btn tab-btn on" data-tab="calc">คำนวณ</button>
+          <button type="button" class="seg-btn tab-btn" data-tab="ref">ข้อมูลอ้างอิง</button>
+        </nav>
+        <button type="button" class="theme-toggle" id="themeToggle" title="สลับธีมสว่าง/มืด">🌙</button>
       </div>
     </div>
-    <button class="theme-toggle" id="themeToggle" title="สลับธีมสว่าง/มืด">🌙</button>
-  </div>
-
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="calc">🔢 คำนวณ</button>
-      <button class="tab-btn" data-tab="ref">📖 ข้อมูลอ้างอิง</button>
-    </div>
-  </div>
+  </header>
 
   <!-- ============ CALCULATOR PANEL ============ -->
-  <section id="panel-calc" class="panel">
-    <div class="card">
-      <h3>👤 ข้อมูลส่วนบุคคล</h3>
-      <p class="hint">ข้อมูลผู้ปฏิบัติงาน ใช้สำหรับบันทึกและอ้างอิงประวัติเท่านั้น ไม่มีผลต่อการคำนวณ</p>
-      <div class="personal-grid">
-        <div class="field">
-          <label for="empId">รหัสพนักงาน (ID)</label>
-          <div class="input-shell"><input type="text" id="empId" placeholder="เช่น EMP-001"></div>
-        </div>
-        <div class="field">
-          <label for="gender">เพศ</label>
-          <div class="input-shell">
-            <select id="gender">
-              <option value="">ไม่ระบุ</option>
-              <option value="ชาย">ชาย</option>
-              <option value="หญิง">หญิง</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="tenure">อายุงาน</label>
-          <div class="input-shell">
-            <input type="number" inputmode="decimal" id="tenure" min="0" max="60" step="0.5" placeholder="0">
-            <span class="unit">ปี</span>
-          </div>
-        </div>
-        <div class="field">
-          <label for="department">แผนก</label>
-          <div class="input-shell"><input type="text" id="department" placeholder="เช่น ฝ่ายผลิต"></div>
-        </div>
-      </div>
-    </div>
+  <section id="panel-calc">
+    <main class="calc">
 
-    <div class="grid">
-      <div class="card">
-        <h3>⚖️ น้ำหนักวัตถุ</h3>
-        <p class="hint">น้ำหนักจริงของวัตถุที่ทำการยก</p>
-        <div class="field">
-          <label for="weight">Object Weight</label>
-          <div class="input-shell">
-            <input type="number" inputmode="decimal" id="weight" value="10" min="0" max="500" step="0.5">
-            <span class="unit">kg</span>
+      <div class="col-main">
+
+        <section class="card">
+          <div class="card-title"><span class="step">01</span><h2>ผู้ปฏิบัติงาน</h2></div>
+          <p class="card-sub">ใช้บันทึกประวัติเท่านั้น ไม่มีผลต่อการคำนวณ</p>
+          <div class="worker-grid">
+            <label class="field">รหัสพนักงาน
+              <input type="text" id="empId" placeholder="เช่น EMP-0142" autocomplete="off">
+            </label>
+            <label class="field">แผนก
+              <input type="text" id="department" placeholder="เช่น คลังสินค้า" autocomplete="off">
+            </label>
+            <label class="field">อายุงาน (ปี)
+              <input type="number" id="tenure" inputmode="decimal" min="0" max="60" step="0.5" placeholder="0">
+            </label>
+            <div class="field">เพศ
+              <div class="seg seg-field" id="genderSeg"></div>
+            </div>
           </div>
-        </div>
-        <div class="lc-note">ค่าคงที่ในการยก (Load Constant, <b>LC</b>) = <b>23 kg</b></div>
+        </section>
+
+        <section class="card card-weight">
+          <div class="weight-info">
+            <div class="card-title"><span class="step">02</span><h2>น้ำหนักวัตถุ</h2></div>
+            <p class="card-sub nomargin">ค่าคงที่การยก LC = <span class="mono ink">23 kg</span></p>
+          </div>
+          <div class="weight-box">
+            <input type="number" id="weight" inputmode="decimal" min="0" max="500" step="0.5" value="10" aria-label="น้ำหนักวัตถุ (kg)">
+            <span class="weight-unit">kg</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-title"><span class="step">03</span><h2>ตำแหน่งและท่าทางการยก</h2></div>
+          <p class="card-sub">วัดที่จุดเริ่มยก ระบบคำนวณตัวคูณให้อัตโนมัติ</p>
+          <div class="geo-grid" id="geoGrid"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title"><span class="step">04</span><h2>ความถี่และระยะเวลา</h2></div>
+              <p class="card-sub nomargin">ใช้ V &lt; 75 / ≥ 75 ซม. ตามค่าที่กรอกด้านบน</p>
+            </div>
+            <div class="mult-read"><div class="mult-key">FM</div><div class="mult-val" id="fmText">1.00</div></div>
+          </div>
+          <div class="stack">
+            <div class="stack-item">
+              <div class="label-sm">ความถี่การยก (ครั้ง/นาที)</div>
+              <div class="chips" id="freqChips"></div>
+            </div>
+            <div class="stack-item">
+              <div class="label-sm">ระยะเวลาทำงานต่อเนื่อง</div>
+              <div class="seg seg-dur" id="durSeg"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div class="card-title"><span class="step">05</span><h2>การจับยึดวัตถุ</h2></div>
+            <div class="mult-read"><div class="mult-key">CM</div><div class="mult-val" id="cmText">1.00</div></div>
+          </div>
+          <div class="cpl-grid" id="cplGrid"></div>
+        </section>
       </div>
 
-      <div class="card">
-        <h3>🎚️ ตัวคูณ (Multipliers)</h3>
-        <p class="hint">กรอกค่าตัวคูณ</p>
-        <div class="mult-grid">
-          <div class="field">
-            <label for="hm">HM — Horizontal Multiplier</label>
-            <div class="input-shell"><input type="text" inputmode="decimal" id="hm" class="mult" value="1.00"></div>
-            <div class="raw-row">
-              <span class="raw-label">H</span>
-              <div class="input-shell"><input type="text" inputmode="decimal" id="rawH" class="raw-input" placeholder="H — ระยะห่างแนวราบ"><span class="unit">ซม.</span></div>
+      <aside class="aside" id="resultAside">
+        <section class="hero" id="hero">
+          <div class="hero-top">
+            <div class="hero-col">
+              <div class="hero-label">RWL · น้ำหนักที่แนะนำ</div>
+              <div class="hero-val"><span id="rwlText">0.00</span><span class="hero-unit">kg</span></div>
             </div>
-            <p class="mini-hint" id="hmHint">กรอก H เพื่อคำนวณ HM = 25 / H (H อยู่ในช่วง 25–63 ซม.) หรือกรอกค่า HM เองก็ได้</p>
-          </div>
-          <div class="field">
-            <label for="vm">VM — Vertical Multiplier</label>
-            <div class="input-shell"><input type="text" inputmode="decimal" id="vm" class="mult" value="1.00"></div>
-            <div class="raw-row">
-              <span class="raw-label">V</span>
-              <div class="input-shell"><input type="text" inputmode="decimal" id="rawV" class="raw-input" placeholder="V — ความสูงมือจากพื้น"><span class="unit">ซม.</span></div>
+            <div class="hero-col">
+              <div class="hero-label">LI · Lifting Index</div>
+              <div class="hero-val"><span id="liText">0.00</span></div>
             </div>
-            <p class="mini-hint" id="vmHint">กรอก V เพื่อคำนวณ VM = 1 − 0.003 |V − 75| (V อยู่ในช่วง 0–175 ซม.) หรือกรอกค่า VM เองก็ได้</p>
           </div>
-          <div class="field">
-            <label for="dm">DM — Distance Multiplier</label>
-            <div class="input-shell"><input type="text" inputmode="decimal" id="dm" class="mult" value="1.00"></div>
-            <div class="raw-row">
-              <span class="raw-label">D</span>
-              <div class="input-shell"><input type="text" inputmode="decimal" id="rawD" class="raw-input" placeholder="D — ระยะเคลื่อนที่แนวดิ่ง"><span class="unit">ซม.</span></div>
+          <div class="gauge-block">
+            <div class="gauge-wrap">
+              <div class="gauge"><div class="g-low"></div><div class="g-mid"></div><div class="g-high"></div></div>
+              <div class="gauge-marker" id="gaugeMarker"></div>
             </div>
-            <p class="mini-hint" id="dmHint">กรอก D เพื่อคำนวณ DM = 0.82 + 4.5 / D (D อยู่ในช่วง 25–175 ซม.) หรือกรอกค่า DM เองก็ได้</p>
+            <div class="gauge-scale"><span class="s1">0</span><span class="s2">1</span><span class="s3">3</span><span>4+</span></div>
           </div>
-          <div class="field">
-            <label for="am">AM — Asymmetric Multiplier</label>
-            <div class="input-shell"><input type="text" inputmode="decimal" id="am" class="mult" value="1.00"></div>
-            <div class="raw-row">
-              <span class="raw-label">A</span>
-              <div class="input-shell"><input type="text" inputmode="decimal" id="rawA" class="raw-input" placeholder="A — มุมบิดลำตัว"><span class="unit">องศา</span></div>
-            </div>
-            <p class="mini-hint">กรอก A เพื่อคำนวณ AM = 1 − 0.0032 × A หรือกรอกค่า AM เองก็ได้</p>
+          <div class="hero-risk">
+            <div class="risk-line"><span class="risk-dot" id="riskDot"></span><span class="risk-label" id="riskLabel"></span></div>
+            <div class="risk-advice" id="riskAdvice"></div>
           </div>
-          <div class="field">
-            <label for="fm">FM — Frequency Multiplier</label>
-            <div class="input-shell"><input type="text" inputmode="decimal" id="fm" class="mult" value="1.00"></div>
-            <p class="mini-hint">อิงหน่วย: ความถี่การยก (ครั้ง/นาที) × ระยะเวลาทำงาน — ดูตารางเกณฑ์ด้านล่าง</p>
+        </section>
+
+        <section class="card breakdown">
+          <div class="breakdown-head">
+            <h3>ตัวคูณที่ลด RWL</h3>
+            <span class="mono muted-sm">23 kg × …</span>
           </div>
-          <div class="field">
-            <label for="cm">CM — Coupling Multiplier</label>
-            <div class="input-shell"><input type="text" inputmode="decimal" id="cm" class="mult" value="1.00"></div>
-            <p class="mini-hint">อิงหน่วย: ระดับการจับยึดวัตถุ (ดี/ปานกลาง/ไม่ดี) — ดูตารางเกณฑ์ด้านล่าง</p>
+          <div class="breakdown-rows" id="breakdown"></div>
+          <div class="tips" id="tipsWrap" hidden>
+            <div class="label-sm">แนวทางปรับปรุง</div>
+            <div id="tips"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <label class="field" for="suggestion"><span>💬 ข้อเสนอแนะ <span class="muted-sm">(บันทึกพร้อมผลนี้)</span></span>
+            <textarea id="suggestion" rows="3" placeholder="พิมพ์ข้อเสนอแนะหรือหมายเหตุเพิ่มเติมได้ตามต้องการ"></textarea>
+          </label>
+        </section>
+
+        <button type="button" class="save-btn" id="saveRecordBtn">บันทึกผลนี้</button>
+      </aside>
+
+      <section class="card history">
+        <div class="history-head">
+          <div>
+            <h2>ประวัติการบันทึก</h2>
+            <p class="card-sub nomargin"><span id="historyCount">0</span> รายการ · เก็บไว้ในเบราว์เซอร์นี้</p>
+          </div>
+          <div class="history-actions">
+            <button type="button" class="btn" id="exportCsvBtn" disabled>ดาวน์โหลด Excel (.csv)</button>
+            <button type="button" class="btn btn-danger" id="clearHistoryBtn" disabled>ล้างทั้งหมด</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="ref-grid">
-      <div class="card">
-        <h3>🔁 ตารางเกณฑ์ตัวคูณความถี่ (FM)</h3>
-        <p class="hint">ค่า FM ขึ้นกับความถี่การยก (ครั้ง/นาที), ระยะเวลาทำงานต่อเนื่อง และความสูงของมือขณะยก (V &lt; 75 ซม. หรือ V ≥ 75 ซม.)</p>
-        <div class="table-scroll">
-          <table>
+        <div class="history-empty" id="historyEmpty">ยังไม่มีรายการ — กด “บันทึกผลนี้” เพื่อเก็บผลไว้เปรียบเทียบ</div>
+        <div class="table-scroll" id="historyScroll" hidden>
+          <table class="hist-table">
             <thead>
               <tr>
-                <th>ความถี่<br>(ครั้ง/นาที)</th>
-                <th>≤1 ชม.<br>V&lt;75</th><th>≤1 ชม.<br>V≥75</th>
-                <th>≤2 ชม.<br>V&lt;75</th><th>≤2 ชม.<br>V≥75</th>
-                <th>≤8 ชม.<br>V&lt;75</th><th>≤8 ชม.<br>V≥75</th>
+                <th>เวลา</th><th>รหัส</th><th>แผนก</th>
+                <th class="num">น้ำหนัก</th>
+                <th class="mono">HM VM DM AM FM CM</th>
+                <th class="num">RWL</th><th class="num">LI</th>
+                <th>ระดับ</th><th>ข้อเสนอแนะ</th><th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">0.2</td><td data-label="≤1ชม. V<75">1.00</td><td data-label="≤1ชม. V≥75">1.00</td><td data-label="≤2ชม. V<75">0.95</td><td data-label="≤2ชม. V≥75">0.95</td><td data-label="≤8ชม. V<75">0.85</td><td data-label="≤8ชม. V≥75">0.85</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">0.5</td><td data-label="≤1ชม. V<75">0.97</td><td data-label="≤1ชม. V≥75">0.97</td><td data-label="≤2ชม. V<75">0.92</td><td data-label="≤2ชม. V≥75">0.92</td><td data-label="≤8ชม. V<75">0.81</td><td data-label="≤8ชม. V≥75">0.81</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">1</td><td data-label="≤1ชม. V<75">0.94</td><td data-label="≤1ชม. V≥75">0.94</td><td data-label="≤2ชม. V<75">0.88</td><td data-label="≤2ชม. V≥75">0.88</td><td data-label="≤8ชม. V<75">0.75</td><td data-label="≤8ชม. V≥75">0.75</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">2</td><td data-label="≤1ชม. V<75">0.91</td><td data-label="≤1ชม. V≥75">0.91</td><td data-label="≤2ชม. V<75">0.84</td><td data-label="≤2ชม. V≥75">0.84</td><td data-label="≤8ชม. V<75">0.65</td><td data-label="≤8ชม. V≥75">0.65</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">3</td><td data-label="≤1ชม. V<75">0.88</td><td data-label="≤1ชม. V≥75">0.88</td><td data-label="≤2ชม. V<75">0.79</td><td data-label="≤2ชม. V≥75">0.79</td><td data-label="≤8ชม. V<75">0.55</td><td data-label="≤8ชม. V≥75">0.55</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">4</td><td data-label="≤1ชม. V<75">0.84</td><td data-label="≤1ชม. V≥75">0.84</td><td data-label="≤2ชม. V<75">0.72</td><td data-label="≤2ชม. V≥75">0.72</td><td data-label="≤8ชม. V<75">0.45</td><td data-label="≤8ชม. V≥75">0.45</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">5</td><td data-label="≤1ชม. V<75">0.80</td><td data-label="≤1ชม. V≥75">0.80</td><td data-label="≤2ชม. V<75">0.60</td><td data-label="≤2ชม. V≥75">0.60</td><td data-label="≤8ชม. V<75">0.35</td><td data-label="≤8ชม. V≥75">0.35</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">6</td><td data-label="≤1ชม. V<75">0.75</td><td data-label="≤1ชม. V≥75">0.75</td><td data-label="≤2ชม. V<75">0.50</td><td data-label="≤2ชม. V≥75">0.50</td><td data-label="≤8ชม. V<75">0.27</td><td data-label="≤8ชม. V≥75">0.27</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">7</td><td data-label="≤1ชม. V<75">0.70</td><td data-label="≤1ชม. V≥75">0.70</td><td data-label="≤2ชม. V<75">0.42</td><td data-label="≤2ชม. V≥75">0.42</td><td data-label="≤8ชม. V<75">0.22</td><td data-label="≤8ชม. V≥75">0.22</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">8</td><td data-label="≤1ชม. V<75">0.60</td><td data-label="≤1ชม. V≥75">0.60</td><td data-label="≤2ชม. V<75">0.35</td><td data-label="≤2ชม. V≥75">0.35</td><td data-label="≤8ชม. V<75">0.18</td><td data-label="≤8ชม. V≥75">0.18</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">9</td><td data-label="≤1ชม. V<75">0.52</td><td data-label="≤1ชม. V≥75">0.52</td><td data-label="≤2ชม. V<75">0.30</td><td data-label="≤2ชม. V≥75">0.30</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">0.15</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">10</td><td data-label="≤1ชม. V<75">0.45</td><td data-label="≤1ชม. V≥75">0.45</td><td data-label="≤2ชม. V<75">0.26</td><td data-label="≤2ชม. V≥75">0.26</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">0.13</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">11</td><td data-label="≤1ชม. V<75">0.41</td><td data-label="≤1ชม. V≥75">0.41</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">0.23</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">12</td><td data-label="≤1ชม. V<75">0.37</td><td data-label="≤1ชม. V≥75">0.37</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">0.21</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">13</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.34</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">14</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.31</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">15</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.28</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">&gt; 15</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">—</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-            </tbody>
+            <tbody id="historyBody"></tbody>
           </table>
         </div>
-        <p class="hint" style="margin:12px 0 0">— หมายถึงไม่สามารถปฏิบัติงานที่ความถี่และระยะเวลานั้นได้ (FM = 0)</p>
-      </div>
-
-      <div class="card">
-        <h3>🤝 ตารางเกณฑ์ตัวคูณการจับยึด (CM)</h3>
-        <p class="hint">ค่า CM ขึ้นกับคุณภาพการจับยึดวัตถุและความสูงของมือขณะยก (V &lt; 75 ซม. หรือ V ≥ 75 ซม.)</p>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr><th>ระดับการจับยึด</th><th>V &lt; 75 ซม.</th><th>V ≥ 75 ซม.</th></tr>
-            </thead>
-            <tbody>
-              <tr class="row-success"><td data-label="ระดับการจับยึด">ดี (Good Coupling)</td><td data-label="V < 75 ซม.">1.00</td><td data-label="V ≥ 75 ซม.">1.00</td></tr>
-              <tr class="row-warning"><td data-label="ระดับการจับยึด">ปานกลาง (Fair Coupling)</td><td data-label="V < 75 ซม.">0.95</td><td data-label="V ≥ 75 ซม.">1.00</td></tr>
-              <tr class="row-danger"><td data-label="ระดับการจับยึด">ไม่ดี (Poor Coupling)</td><td data-label="V < 75 ซม.">0.90</td><td data-label="V ≥ 75 ซม.">0.90</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <ul class="coupling-desc">
-          <li><b>ดี (Good Coupling):</b> วัตถุมีที่จับ (Handles) หรือช่องเจาะให้สอดมือเข้าไปจับได้อย่างมั่นคง ออกแบบตามหลักสรีรศาสตร์ มือไม่ลื่น หรือถ้าเป็นกล่อง/วัตถุทั่วไปที่ไม่มีหูจับ แต่พื้นผิวด้านล่างต้องสามารถใช้อุ้งมือโอบช้อนยกขึ้นมาได้อย่างสมบูรณ์และมั่นคงโดยที่ข้อมือไม่หักหรืองอจนผิดธรรมชาติ</li>
-          <li><b>ปานกลาง (Fair Coupling):</b> วัตถุมีที่จับหรือช่องเจาะ แต่ไม่ได้ออกแบบมาดีนัก (เช่น ช่องแคบไป มือสอดได้ไม่เต็มที่)</li>
-          <li><b>ไม่ดี (Poor Coupling):</b> วัตถุไม่มีที่จับ จับยาก พื้นผิวลื่น รูปทรงแปลกประหลาด ของข้างในขยับไปมา (เช่น ถุงกระสอบใส่น้ำยาง หรือกล่องขนาดใหญ่ที่ไม่มีที่จับและไม่สามารถสอดอุ้งมือเข้าช้อนใต้กล่องได้สะดวก) ทำให้ต้องเกร็งนิ้วมือหรือใช้ท่าทางแปลกๆ ในการยก</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card results-card">
-      <h3>📊 ผลการคำนวณ</h3>
-      <p class="hint">อัปเดตอัตโนมัติเมื่อเปลี่ยนค่าด้านบน</p>
-
-      <div class="results-top">
-        <div class="metric-box">
-          <div class="metric-label">RWL (Recommended Weight Limit)</div>
-          <div class="metric-value" id="rwlValue">23.00 kg</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-label">LI (Lifting Index)</div>
-          <div class="metric-value" id="liValue">0.43</div>
-        </div>
-      </div>
-
-      <div class="banner success" id="banner">
-        <span class="emoji" id="bannerEmoji">✅</span>
-        <span id="bannerText">ไม่ต้องมีการปรับปรุงแก้ไข</span>
-      </div>
-      <div class="interpretation-note" id="interpretationNote"></div>
-
-      <div class="field suggestion-field">
-        <label for="suggestion">💬 ข้อเสนอแนะ</label>
-        <div class="input-shell">
-          <textarea id="suggestion" rows="4" placeholder="พิมพ์ข้อเสนอแนะหรือหมายเหตุเพิ่มเติมได้ตามต้องการ"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="card history-card">
-      <div class="history-head">
-        <div>
-          <h3>🗂️ ประวัติการบันทึก</h3>
-          <p class="hint" style="margin:0">บันทึกผลการคำนวณแต่ละครั้งไว้เปรียบเทียบ แล้วดาวน์โหลดเป็นไฟล์ Excel ได้</p>
-        </div>
-        <div class="history-actions">
-          <button class="btn btn-primary" id="saveRecordBtn">💾 บันทึกผลนี้</button>
-          <button class="btn btn-outline" id="exportCsvBtn" disabled>⬇️ ดาวน์โหลด Excel</button>
-          <button class="btn btn-ghost" id="clearHistoryBtn" disabled>🗑️ ล้างทั้งหมด</button>
-        </div>
-      </div>
-
-      <p class="hint" id="historyEmpty">ยังไม่มีข้อมูลที่บันทึกไว้</p>
-
-      <div class="table-scroll">
-        <table id="historyTable" class="hidden">
-          <thead>
-            <tr>
-              <th>เวลาที่บันทึก</th>
-              <th>รหัสพนักงาน</th>
-              <th>เพศ</th>
-              <th>อายุงาน (ปี)</th>
-              <th>แผนก</th>
-              <th>น้ำหนัก (kg)</th>
-              <th>HM</th><th>VM</th><th>DM</th><th>AM</th><th>FM</th><th>CM</th>
-              <th>RWL (kg)</th>
-              <th>LI</th>
-              <th>ระดับความเสี่ยง</th>
-              <th>ข้อเสนอแนะ</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="historyBody"></tbody>
-        </table>
-      </div>
-    </div>
+      </section>
+    </main>
   </section>
 
   <!-- ============ REFERENCE PANEL ============ -->
-  <section id="panel-ref" class="panel hidden">
-    <div class="ref-grid">
-      <div class="card">
-        <h3>สูตรการคำนวณ</h3>
-        <div class="formula-line">LC (Load Constant) = 23 kg</div>
-        <div class="formula-line">RWL = LC × HM × VM × DM × AM × FM × CM</div>
-        <div class="formula-line">LI = น้ำหนักวัตถุ (Object Weight) / RWL</div>
-        <div class="formula-line">HM = 25 / H &nbsp;(H = ระยะแนวราบจากจุดกึ่งกลางลำตัวถึงมือ, ซม.)</div>
-        <div class="formula-line">VM = 1 − 0.003 × |V − 75| &nbsp;(V = ความสูงของมือจากพื้นตอนเริ่มยก, ซม.)</div>
-        <div class="formula-line">DM = 0.82 + 4.5 / D &nbsp;(D = ระยะแนวดิ่งที่วัตถุเคลื่อนที่จากจุดเริ่มถึงจุดวาง, ซม.)</div>
-      </div>
-      <div class="card">
-        <h3>เกณฑ์การประเมินค่า LI</h3>
-        <div class="table-scroll">
-        <table>
-          <thead>
-            <tr><th>ค่า LI</th><th>ระดับความเสี่ยง</th><th>คำแนะนำ</th><th>คำอธิบายเพิ่มเติม</th></tr>
-          </thead>
-          <tbody>
-            <tr class="row-success">
-              <td data-label="ค่า LI">LI &lt; 1</td>
-              <td data-label="ระดับความเสี่ยง">ความเสี่ยงต่ำ (Low Risk)</td>
-              <td data-label="คำแนะนำ">ความเสี่ยงต่ำ</td>
-              <td data-label="คำอธิบายเพิ่มเติม">เป็นงานที่มีความเสี่ยงต่ำ มีโอกาสเกิดอันตรายน้อย ไม่จำเป็นต้องปรับปรุงงานเพิ่มเติม แต่ควรรักษามาตรการป้องกันอันตรายที่มีอยู่</td>
-            </tr>
-            <tr class="row-warning">
-              <td data-label="ค่า LI">1 ≤ LI &lt; 3</td>
-              <td data-label="ระดับความเสี่ยง">ความเสี่ยงปานกลาง (Moderate Risk)</td>
-              <td data-label="คำแนะนำ">ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน</td>
-              <td data-label="คำอธิบายเพิ่มเติม">เป็นงานที่มีความเสี่ยงเพิ่มขึ้น อาจก่อให้เกิดอันตรายต่อผู้ปฏิบัติงาน จึงควรปรับปรุงวิธีการทำงาน เช่น ลดระยะการเอื้อม ลดการยกของสูง และลดความถี่ในการทำงานซ้ำ ๆ</td>
-            </tr>
-            <tr class="row-danger">
-              <td data-label="ค่า LI">LI ≥ 3</td>
-              <td data-label="ระดับความเสี่ยง">ความเสี่ยงสูง (High Risk)</td>
-              <td data-label="คำแนะนำ">ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที</td>
-              <td data-label="คำอธิบายเพิ่มเติม">เป็นงานที่มีความเสี่ยงสูง อาจก่อให้เกิดอันตรายหรือการบาดเจ็บต่อผู้ปฏิบัติงาน ควรเร่งปรับปรุงวิธีการทำงานทันที ก่อนให้พนักงานกลับมาปฏิบัติงานตามปกติ</td>
-            </tr>
-          </tbody>
-        </table>
+  <section id="panel-ref" hidden>
+    <main class="ref">
+      <section class="hero ref-formula">
+        <div class="hero-label">สูตรการคำนวณ</div>
+        <div class="formula-main">RWL = LC × HM × VM × DM × AM × FM × CM<br>LI = น้ำหนักวัตถุ ÷ RWL</div>
+        <div class="formula-grid">
+          <span>HM = 25 / H</span><span>VM = 1 − 0.003 |V − 75|</span><span>DM = 0.82 + 4.5 / D</span><span>AM = 1 − 0.0032 A</span>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <div class="card">
-      <h3>📚 ความหมายของตัวแปร (NIOSH Lifting Equation)</h3>
-      <p class="hint">ใช้ชื่อเรียกตามมาตรฐาน NIOSH (Waters et al., Revised NIOSH Lifting Equation)</p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>ตัวแปร</th><th>ชื่อมาตรฐาน (English)</th><th>ความหมาย</th></tr></thead>
-          <tbody>
-            <tr><td data-label="ตัวแปร">LC</td><td data-label="ชื่อมาตรฐาน">Load Constant</td><td data-label="ความหมาย">ค่าคงที่น้ำหนักยกมาตรฐาน = 23 กก. ภายใต้สภาวะการยกที่เหมาะสมที่สุด</td></tr>
-            <tr><td data-label="ตัวแปร">HM</td><td data-label="ชื่อมาตรฐาน">Horizontal Multiplier</td><td data-label="ความหมาย">ตัวคูณระยะห่างแนวราบระหว่างจุดจับวัตถุกับจุดกึ่งกลางลำตัว (Horizontal Location)</td></tr>
-            <tr><td data-label="ตัวแปร">VM</td><td data-label="ชื่อมาตรฐาน">Vertical Multiplier</td><td data-label="ความหมาย">ตัวคูณความสูงของมือจากพื้นขณะเริ่มยกวัตถุ (Vertical Location)</td></tr>
-            <tr><td data-label="ตัวแปร">DM</td><td data-label="ชื่อมาตรฐาน">Distance Multiplier</td><td data-label="ความหมาย">ตัวคูณระยะทางแนวดิ่งที่เคลื่อนย้ายวัตถุจากจุดเริ่มต้นถึงจุดสิ้นสุด (Vertical Travel Distance)</td></tr>
-            <tr><td data-label="ตัวแปร">AM</td><td data-label="ชื่อมาตรฐาน">Asymmetric Multiplier</td><td data-label="ความหมาย">ตัวคูณมุมบิดของลำตัวขณะยกเทียบกับแนวหน้าตรง (Asymmetric Angle)</td></tr>
-            <tr><td data-label="ตัวแปร">FM</td><td data-label="ชื่อมาตรฐาน">Frequency Multiplier</td><td data-label="ความหมาย">ตัวคูณความถี่ในการยกวัตถุต่อหน่วยเวลา (Lifting Frequency, ครั้ง/นาที)</td></tr>
-            <tr><td data-label="ตัวแปร">CM</td><td data-label="ชื่อมาตรฐาน">Coupling Multiplier</td><td data-label="ความหมาย">ตัวคูณคุณภาพของการจับยึดวัตถุ เช่น มือจับ/ขอบวัตถุ (Coupling Quality)</td></tr>
-            <tr><td data-label="ตัวแปร">RWL</td><td data-label="ชื่อมาตรฐาน">Recommended Weight Limit</td><td data-label="ความหมาย">น้ำหนักสูงสุดที่แนะนำให้ยกได้อย่างปลอดภัยภายใต้เงื่อนไขของงานนั้นๆ</td></tr>
-            <tr><td data-label="ตัวแปร">LI</td><td data-label="ชื่อมาตรฐาน">Lifting Index</td><td data-label="ความหมาย">ดัชนีชี้วัดระดับความเสี่ยงของงานยก = น้ำหนักวัตถุ ÷ RWL</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <section class="card">
+        <h2 class="h-plain">เกณฑ์การประเมินค่า LI</h2>
+        <div class="criteria">
+          <div class="crit crit-success">
+            <div class="crit-li">LI &lt; 1</div>
+            <div><div class="crit-title">ความเสี่ยงต่ำ</div><div class="crit-desc">โอกาสเกิดอันตรายน้อย ไม่จำเป็นต้องปรับปรุงเพิ่มเติม แต่ควรรักษามาตรการป้องกันที่มีอยู่</div></div>
+          </div>
+          <div class="crit crit-warning">
+            <div class="crit-li">1 ≤ LI &lt; 3</div>
+            <div><div class="crit-title">ความเสี่ยงปานกลาง</div><div class="crit-desc">ควรปรับปรุงวิธีการทำงาน เช่น ลดระยะเอื้อม ลดการยกของสูง และลดความถี่การทำงานซ้ำ ๆ</div></div>
+          </div>
+          <div class="crit crit-danger">
+            <div class="crit-li">LI ≥ 3</div>
+            <div><div class="crit-title">ความเสี่ยงสูง</div><div class="crit-desc">อาจก่อให้เกิดการบาดเจ็บ ควรเร่งปรับปรุงวิธีการทำงานทันทีก่อนกลับมาปฏิบัติงานตามปกติ</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="h-plain">ความหมายของตัวแปร</h2>
+        <div class="glossary" id="glossary"></div>
+        <p class="muted-xs">อ้างอิง Waters et al., Revised NIOSH Lifting Equation</p>
+      </section>
+    </main>
   </section>
 
-  <footer>NIOSH Lifting Equation Calculator — คำนวณเพื่อการประเมินเบื้องต้นเท่านั้น</footer>
+  <div class="bar-spacer" id="barSpacer" hidden></div>
+  <div class="sticky-bar" id="stickyBar" hidden>
+    <div class="bar-vals">
+      <div class="bar-col"><span class="bar-label">RWL</span><span class="bar-val"><span id="barRwl">0.00</span><span class="bar-unit"> kg</span></span></div>
+      <div class="bar-col"><span class="bar-label">LI</span><span class="bar-val" id="barLi">0.00</span></div>
+    </div>
+    <button type="button" class="bar-risk" id="barRiskBtn"><span class="risk-dot" id="barDot"></span><span id="barRiskLabel"></span></button>
+  </div>
+
+  <footer>ใช้เพื่อการประเมินเบื้องต้นเท่านั้น</footer>
 </div>
 
-<script src="script.js?v=20261108c"></script>
+<script src="script.js?v=20261108d"></script>
 </body>
 </html>
