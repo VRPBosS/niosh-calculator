@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="NIOSH Calculator">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏋️</text></svg>">
 <title>NIOSH Lifting Equation Calculator</title>
-<link rel="stylesheet" href="styles.css?v=20261105">
+<link rel="stylesheet" href="styles.css?v=20261108">
 </head>
 <body>
 <div class="page">
@@ -88,14 +88,29 @@
           <div class="field">
             <label for="hm">HM — Horizontal Multiplier</label>
             <div class="input-shell"><input type="text" inputmode="decimal" id="hm" class="mult" value="1.00"></div>
+            <div class="raw-row">
+              <span class="raw-label">H</span>
+              <div class="input-shell"><input type="text" inputmode="decimal" id="rawH" class="raw-input" placeholder="H — ระยะห่างแนวราบ"><span class="unit">ซม.</span></div>
+            </div>
+            <p class="mini-hint" id="hmHint">กรอก H เพื่อคำนวณ HM = 25 / H (H อยู่ในช่วง 25–63 ซม.) หรือกรอกค่า HM เองก็ได้</p>
           </div>
           <div class="field">
             <label for="vm">VM — Vertical Multiplier</label>
             <div class="input-shell"><input type="text" inputmode="decimal" id="vm" class="mult" value="1.00"></div>
+            <div class="raw-row">
+              <span class="raw-label">V</span>
+              <div class="input-shell"><input type="text" inputmode="decimal" id="rawV" class="raw-input" placeholder="V — ความสูงมือจากพื้น"><span class="unit">ซม.</span></div>
+            </div>
+            <p class="mini-hint" id="vmHint">กรอก V เพื่อคำนวณ VM = 1 − 0.003 |V − 75| (V อยู่ในช่วง 0–175 ซม.) หรือกรอกค่า VM เองก็ได้</p>
           </div>
           <div class="field">
             <label for="dm">DM — Distance Multiplier</label>
             <div class="input-shell"><input type="text" inputmode="decimal" id="dm" class="mult" value="1.00"></div>
+            <div class="raw-row">
+              <span class="raw-label">D</span>
+              <div class="input-shell"><input type="text" inputmode="decimal" id="rawD" class="raw-input" placeholder="D — ระยะเคลื่อนที่แนวดิ่ง"><span class="unit">ซม.</span></div>
+            </div>
+            <p class="mini-hint" id="dmHint">กรอก D เพื่อคำนวณ DM = 0.82 + 4.5 / D (D อยู่ในช่วง 25–175 ซม.) หรือกรอกค่า DM เองก็ได้</p>
           </div>
           <div class="field">
             <label for="am">AM — Asymmetric Multiplier</label>
@@ -191,6 +206,9 @@
         <div class="formula-line">LC (Load Constant) = 23 kg</div>
         <div class="formula-line">RWL = LC × HM × VM × DM × AM × FM × CM</div>
         <div class="formula-line">LI = น้ำหนักวัตถุ (Object Weight) / RWL</div>
+        <div class="formula-line">HM = 25 / H &nbsp;(H = ระยะแนวราบจากจุดกึ่งกลางลำตัวถึงมือ, ซม.)</div>
+        <div class="formula-line">VM = 1 − 0.003 × |V − 75| &nbsp;(V = ความสูงของมือจากพื้นตอนเริ่มยก, ซม.)</div>
+        <div class="formula-line">DM = 0.82 + 4.5 / D &nbsp;(D = ระยะแนวดิ่งที่วัตถุเคลื่อนที่จากจุดเริ่มถึงจุดวาง, ซม.)</div>
       </div>
       <div class="card">
         <h3>เกณฑ์การประเมินค่า LI</h3>
@@ -311,6 +329,6 @@
   <footer>NIOSH Lifting Equation Calculator — คำนวณเพื่อการประเมินเบื้องต้นเท่านั้น</footer>
 </div>
 
-<script src="script.js?v=20261105"></script>
+<script src="script.js?v=20261108"></script>
 </body>
 </html>

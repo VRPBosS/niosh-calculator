@@ -66,6 +66,27 @@ function recalc() {
   el.addEventListener('input', recalc);
 });
 
+// Raw distance (cm) -> multiplier. Typing H / V / D fills HM / VM / DM using the
+// NIOSH sub-formulas; typing in the multiplier field directly still works and
+// simply overrides the last computed value.
+const RAW_INPUTS = [
+  { raw: 'rawH', target: 'hm', calc: h => 25 / h, valid: h => h > 0 },
+  { raw: 'rawV', target: 'vm', calc: v => 1 - 0.003 * Math.abs(v - 75), valid: () => true },
+  { raw: 'rawD', target: 'dm', calc: d => 0.82 + 4.5 / d, valid: d => d > 0 },
+];
+
+RAW_INPUTS.forEach(cfg => {
+  const rawEl = document.getElementById(cfg.raw);
+  const targetEl = document.getElementById(cfg.target);
+  rawEl.addEventListener('input', () => {
+    const value = parseFloat(rawEl.value);
+    // H and D are divisors, so 0 / empty / non-numeric input is ignored.
+    if (!isFinite(value) || !cfg.valid(value)) return;
+    targetEl.value = cfg.calc(value).toFixed(2);
+    recalc();
+  });
+});
+
 // correct a negative multiplier back to 0 as soon as the field is left,
 // rather than waiting for some other field's input event to trigger it
 multIds.forEach(id => document.getElementById(id).addEventListener('blur', recalc));
