@@ -119,14 +119,76 @@
           <div class="field">
             <label for="fm">FM — Frequency Multiplier</label>
             <div class="input-shell"><input type="text" inputmode="decimal" id="fm" class="mult" value="1.00"></div>
-            <p class="mini-hint">อิงหน่วย: ความถี่การยก (ครั้ง/นาที) × ระยะเวลาทำงาน — ดูตารางเกณฑ์ที่แท็บ “ข้อมูลอ้างอิง”</p>
+            <p class="mini-hint">อิงหน่วย: ความถี่การยก (ครั้ง/นาที) × ระยะเวลาทำงาน — ดูตารางเกณฑ์ด้านล่าง</p>
           </div>
           <div class="field">
             <label for="cm">CM — Coupling Multiplier</label>
             <div class="input-shell"><input type="text" inputmode="decimal" id="cm" class="mult" value="1.00"></div>
-            <p class="mini-hint">อิงหน่วย: ระดับการจับยึดวัตถุ (ดี/ปานกลาง/ไม่ดี) — ดูตารางเกณฑ์ที่แท็บ “ข้อมูลอ้างอิง”</p>
+            <p class="mini-hint">อิงหน่วย: ระดับการจับยึดวัตถุ (ดี/ปานกลาง/ไม่ดี) — ดูตารางเกณฑ์ด้านล่าง</p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="ref-grid">
+      <div class="card">
+        <h3>🔁 ตารางเกณฑ์ตัวคูณความถี่ (FM)</h3>
+        <p class="hint">ค่า FM ขึ้นกับความถี่การยก (ครั้ง/นาที), ระยะเวลาทำงานต่อเนื่อง และความสูงของมือขณะยก (V &lt; 75 ซม. หรือ V ≥ 75 ซม.)</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>ความถี่<br>(ครั้ง/นาที)</th>
+                <th>≤1 ชม.<br>V&lt;75</th><th>≤1 ชม.<br>V≥75</th>
+                <th>≤2 ชม.<br>V&lt;75</th><th>≤2 ชม.<br>V≥75</th>
+                <th>≤8 ชม.<br>V&lt;75</th><th>≤8 ชม.<br>V≥75</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">0.2</td><td data-label="≤1ชม. V<75">1.00</td><td data-label="≤1ชม. V≥75">1.00</td><td data-label="≤2ชม. V<75">0.95</td><td data-label="≤2ชม. V≥75">0.95</td><td data-label="≤8ชม. V<75">0.85</td><td data-label="≤8ชม. V≥75">0.85</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">0.5</td><td data-label="≤1ชม. V<75">0.97</td><td data-label="≤1ชม. V≥75">0.97</td><td data-label="≤2ชม. V<75">0.92</td><td data-label="≤2ชม. V≥75">0.92</td><td data-label="≤8ชม. V<75">0.81</td><td data-label="≤8ชม. V≥75">0.81</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">1</td><td data-label="≤1ชม. V<75">0.94</td><td data-label="≤1ชม. V≥75">0.94</td><td data-label="≤2ชม. V<75">0.88</td><td data-label="≤2ชม. V≥75">0.88</td><td data-label="≤8ชม. V<75">0.75</td><td data-label="≤8ชม. V≥75">0.75</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">2</td><td data-label="≤1ชม. V<75">0.91</td><td data-label="≤1ชม. V≥75">0.91</td><td data-label="≤2ชม. V<75">0.84</td><td data-label="≤2ชม. V≥75">0.84</td><td data-label="≤8ชม. V<75">0.65</td><td data-label="≤8ชม. V≥75">0.65</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">3</td><td data-label="≤1ชม. V<75">0.88</td><td data-label="≤1ชม. V≥75">0.88</td><td data-label="≤2ชม. V<75">0.79</td><td data-label="≤2ชม. V≥75">0.79</td><td data-label="≤8ชม. V<75">0.55</td><td data-label="≤8ชม. V≥75">0.55</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">4</td><td data-label="≤1ชม. V<75">0.84</td><td data-label="≤1ชม. V≥75">0.84</td><td data-label="≤2ชม. V<75">0.72</td><td data-label="≤2ชม. V≥75">0.72</td><td data-label="≤8ชม. V<75">0.45</td><td data-label="≤8ชม. V≥75">0.45</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">5</td><td data-label="≤1ชม. V<75">0.80</td><td data-label="≤1ชม. V≥75">0.80</td><td data-label="≤2ชม. V<75">0.60</td><td data-label="≤2ชม. V≥75">0.60</td><td data-label="≤8ชม. V<75">0.35</td><td data-label="≤8ชม. V≥75">0.35</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">6</td><td data-label="≤1ชม. V<75">0.75</td><td data-label="≤1ชม. V≥75">0.75</td><td data-label="≤2ชม. V<75">0.50</td><td data-label="≤2ชม. V≥75">0.50</td><td data-label="≤8ชม. V<75">0.27</td><td data-label="≤8ชม. V≥75">0.27</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">7</td><td data-label="≤1ชม. V<75">0.70</td><td data-label="≤1ชม. V≥75">0.70</td><td data-label="≤2ชม. V<75">0.42</td><td data-label="≤2ชม. V≥75">0.42</td><td data-label="≤8ชม. V<75">0.22</td><td data-label="≤8ชม. V≥75">0.22</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">8</td><td data-label="≤1ชม. V<75">0.60</td><td data-label="≤1ชม. V≥75">0.60</td><td data-label="≤2ชม. V<75">0.35</td><td data-label="≤2ชม. V≥75">0.35</td><td data-label="≤8ชม. V<75">0.18</td><td data-label="≤8ชม. V≥75">0.18</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">9</td><td data-label="≤1ชม. V<75">0.52</td><td data-label="≤1ชม. V≥75">0.52</td><td data-label="≤2ชม. V<75">0.30</td><td data-label="≤2ชม. V≥75">0.30</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">0.15</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">10</td><td data-label="≤1ชม. V<75">0.45</td><td data-label="≤1ชม. V≥75">0.45</td><td data-label="≤2ชม. V<75">0.26</td><td data-label="≤2ชม. V≥75">0.26</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">0.13</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">11</td><td data-label="≤1ชม. V<75">0.41</td><td data-label="≤1ชม. V≥75">0.41</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">0.23</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">12</td><td data-label="≤1ชม. V<75">0.37</td><td data-label="≤1ชม. V≥75">0.37</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">0.21</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">13</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.34</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">14</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.31</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">15</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.28</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
+              <tr><td data-label="ความถี่ (ครั้ง/นาที)">&gt; 15</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">—</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hint" style="margin:12px 0 0">— หมายถึงไม่สามารถปฏิบัติงานที่ความถี่และระยะเวลานั้นได้ (FM = 0)</p>
+      </div>
+
+      <div class="card">
+        <h3>🤝 ตารางเกณฑ์ตัวคูณการจับยึด (CM)</h3>
+        <p class="hint">ค่า CM ขึ้นกับคุณภาพการจับยึดวัตถุและความสูงของมือขณะยก (V &lt; 75 ซม. หรือ V ≥ 75 ซม.)</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>ระดับการจับยึด</th><th>V &lt; 75 ซม.</th><th>V ≥ 75 ซม.</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-success"><td data-label="ระดับการจับยึด">ดี (Good Coupling)</td><td data-label="V < 75 ซม.">1.00</td><td data-label="V ≥ 75 ซม.">1.00</td></tr>
+              <tr class="row-warning"><td data-label="ระดับการจับยึด">ปานกลาง (Fair Coupling)</td><td data-label="V < 75 ซม.">0.95</td><td data-label="V ≥ 75 ซม.">1.00</td></tr>
+              <tr class="row-danger"><td data-label="ระดับการจับยึด">ไม่ดี (Poor Coupling)</td><td data-label="V < 75 ซม.">0.90</td><td data-label="V ≥ 75 ซม.">0.90</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="coupling-desc">
+          <li><b>ดี (Good Coupling):</b> วัตถุมีที่จับ (Handles) หรือช่องเจาะให้สอดมือเข้าไปจับได้อย่างมั่นคง ออกแบบตามหลักสรีรศาสตร์ มือไม่ลื่น หรือถ้าเป็นกล่อง/วัตถุทั่วไปที่ไม่มีหูจับ แต่พื้นผิวด้านล่างต้องสามารถใช้อุ้งมือโอบช้อนยกขึ้นมาได้อย่างสมบูรณ์และมั่นคงโดยที่ข้อมือไม่หักหรืองอจนผิดธรรมชาติ</li>
+          <li><b>ปานกลาง (Fair Coupling):</b> วัตถุมีที่จับหรือช่องเจาะ แต่ไม่ได้ออกแบบมาดีนัก (เช่น ช่องแคบไป มือสอดได้ไม่เต็มที่)</li>
+          <li><b>ไม่ดี (Poor Coupling):</b> วัตถุไม่มีที่จับ จับยาก พื้นผิวลื่น รูปทรงแปลกประหลาด ของข้างในขยับไปมา (เช่น ถุงกระสอบใส่น้ำยาง หรือกล่องขนาดใหญ่ที่ไม่มีที่จับและไม่สามารถสอดอุ้งมือเข้าช้อนใต้กล่องได้สะดวก) ทำให้ต้องเกร็งนิ้วมือหรือใช้ท่าทางแปลกๆ ในการยก</li>
+        </ul>
       </div>
     </div>
 
@@ -260,68 +322,6 @@
             <tr><td data-label="ตัวแปร">LI</td><td data-label="ชื่อมาตรฐาน">Lifting Index</td><td data-label="ความหมาย">ดัชนีชี้วัดระดับความเสี่ยงของงานยก = น้ำหนักวัตถุ ÷ RWL</td></tr>
           </tbody>
         </table>
-      </div>
-    </div>
-
-    <div class="ref-grid">
-      <div class="card">
-        <h3>🔁 ตารางเกณฑ์ตัวคูณความถี่ (FM)</h3>
-        <p class="hint">ค่า FM ขึ้นกับความถี่การยก (ครั้ง/นาที), ระยะเวลาทำงานต่อเนื่อง และความสูงของมือขณะยก (V &lt; 75 ซม. หรือ V ≥ 75 ซม.)</p>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>ความถี่<br>(ครั้ง/นาที)</th>
-                <th>≤1 ชม.<br>V&lt;75</th><th>≤1 ชม.<br>V≥75</th>
-                <th>≤2 ชม.<br>V&lt;75</th><th>≤2 ชม.<br>V≥75</th>
-                <th>≤8 ชม.<br>V&lt;75</th><th>≤8 ชม.<br>V≥75</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">0.2</td><td data-label="≤1ชม. V<75">1.00</td><td data-label="≤1ชม. V≥75">1.00</td><td data-label="≤2ชม. V<75">0.95</td><td data-label="≤2ชม. V≥75">0.95</td><td data-label="≤8ชม. V<75">0.85</td><td data-label="≤8ชม. V≥75">0.85</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">0.5</td><td data-label="≤1ชม. V<75">0.97</td><td data-label="≤1ชม. V≥75">0.97</td><td data-label="≤2ชม. V<75">0.92</td><td data-label="≤2ชม. V≥75">0.92</td><td data-label="≤8ชม. V<75">0.81</td><td data-label="≤8ชม. V≥75">0.81</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">1</td><td data-label="≤1ชม. V<75">0.94</td><td data-label="≤1ชม. V≥75">0.94</td><td data-label="≤2ชม. V<75">0.88</td><td data-label="≤2ชม. V≥75">0.88</td><td data-label="≤8ชม. V<75">0.75</td><td data-label="≤8ชม. V≥75">0.75</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">2</td><td data-label="≤1ชม. V<75">0.91</td><td data-label="≤1ชม. V≥75">0.91</td><td data-label="≤2ชม. V<75">0.84</td><td data-label="≤2ชม. V≥75">0.84</td><td data-label="≤8ชม. V<75">0.65</td><td data-label="≤8ชม. V≥75">0.65</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">3</td><td data-label="≤1ชม. V<75">0.88</td><td data-label="≤1ชม. V≥75">0.88</td><td data-label="≤2ชม. V<75">0.79</td><td data-label="≤2ชม. V≥75">0.79</td><td data-label="≤8ชม. V<75">0.55</td><td data-label="≤8ชม. V≥75">0.55</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">4</td><td data-label="≤1ชม. V<75">0.84</td><td data-label="≤1ชม. V≥75">0.84</td><td data-label="≤2ชม. V<75">0.72</td><td data-label="≤2ชม. V≥75">0.72</td><td data-label="≤8ชม. V<75">0.45</td><td data-label="≤8ชม. V≥75">0.45</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">5</td><td data-label="≤1ชม. V<75">0.80</td><td data-label="≤1ชม. V≥75">0.80</td><td data-label="≤2ชม. V<75">0.60</td><td data-label="≤2ชม. V≥75">0.60</td><td data-label="≤8ชม. V<75">0.35</td><td data-label="≤8ชม. V≥75">0.35</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">6</td><td data-label="≤1ชม. V<75">0.75</td><td data-label="≤1ชม. V≥75">0.75</td><td data-label="≤2ชม. V<75">0.50</td><td data-label="≤2ชม. V≥75">0.50</td><td data-label="≤8ชม. V<75">0.27</td><td data-label="≤8ชม. V≥75">0.27</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">7</td><td data-label="≤1ชม. V<75">0.70</td><td data-label="≤1ชม. V≥75">0.70</td><td data-label="≤2ชม. V<75">0.42</td><td data-label="≤2ชม. V≥75">0.42</td><td data-label="≤8ชม. V<75">0.22</td><td data-label="≤8ชม. V≥75">0.22</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">8</td><td data-label="≤1ชม. V<75">0.60</td><td data-label="≤1ชม. V≥75">0.60</td><td data-label="≤2ชม. V<75">0.35</td><td data-label="≤2ชม. V≥75">0.35</td><td data-label="≤8ชม. V<75">0.18</td><td data-label="≤8ชม. V≥75">0.18</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">9</td><td data-label="≤1ชม. V<75">0.52</td><td data-label="≤1ชม. V≥75">0.52</td><td data-label="≤2ชม. V<75">0.30</td><td data-label="≤2ชม. V≥75">0.30</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">0.15</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">10</td><td data-label="≤1ชม. V<75">0.45</td><td data-label="≤1ชม. V≥75">0.45</td><td data-label="≤2ชม. V<75">0.26</td><td data-label="≤2ชม. V≥75">0.26</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">0.13</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">11</td><td data-label="≤1ชม. V<75">0.41</td><td data-label="≤1ชม. V≥75">0.41</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">0.23</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">12</td><td data-label="≤1ชม. V<75">0.37</td><td data-label="≤1ชม. V≥75">0.37</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">0.21</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">13</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.34</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">14</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.31</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">15</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">0.28</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-              <tr><td data-label="ความถี่ (ครั้ง/นาที)">&gt; 15</td><td data-label="≤1ชม. V<75">—</td><td data-label="≤1ชม. V≥75">—</td><td data-label="≤2ชม. V<75">—</td><td data-label="≤2ชม. V≥75">—</td><td data-label="≤8ชม. V<75">—</td><td data-label="≤8ชม. V≥75">—</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="hint" style="margin:12px 0 0">— หมายถึงไม่สามารถปฏิบัติงานที่ความถี่และระยะเวลานั้นได้ (FM = 0)</p>
-      </div>
-
-      <div class="card">
-        <h3>🤝 ตารางเกณฑ์ตัวคูณการจับยึด (CM)</h3>
-        <p class="hint">ค่า CM ขึ้นกับคุณภาพการจับยึดวัตถุและความสูงของมือขณะยก (V &lt; 75 ซม. หรือ V ≥ 75 ซม.)</p>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr><th>ระดับการจับยึด</th><th>V &lt; 75 ซม.</th><th>V ≥ 75 ซม.</th></tr>
-            </thead>
-            <tbody>
-              <tr class="row-success"><td data-label="ระดับการจับยึด">ดี (Good Coupling)</td><td data-label="V < 75 ซม.">1.00</td><td data-label="V ≥ 75 ซม.">1.00</td></tr>
-              <tr class="row-warning"><td data-label="ระดับการจับยึด">ปานกลาง (Fair Coupling)</td><td data-label="V < 75 ซม.">0.95</td><td data-label="V ≥ 75 ซม.">1.00</td></tr>
-              <tr class="row-danger"><td data-label="ระดับการจับยึด">ไม่ดี (Poor Coupling)</td><td data-label="V < 75 ซม.">0.90</td><td data-label="V ≥ 75 ซม.">0.90</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <ul class="coupling-desc">
-          <li><b>ดี (Good Coupling):</b> วัตถุมีที่จับ (Handles) หรือช่องเจาะให้สอดมือเข้าไปจับได้อย่างมั่นคง ออกแบบตามหลักสรีรศาสตร์ มือไม่ลื่น หรือถ้าเป็นกล่อง/วัตถุทั่วไปที่ไม่มีหูจับ แต่พื้นผิวด้านล่างต้องสามารถใช้อุ้งมือโอบช้อนยกขึ้นมาได้อย่างสมบูรณ์และมั่นคงโดยที่ข้อมือไม่หักหรืองอจนผิดธรรมชาติ</li>
-          <li><b>ปานกลาง (Fair Coupling):</b> วัตถุมีที่จับหรือช่องเจาะ แต่ไม่ได้ออกแบบมาดีนัก (เช่น ช่องแคบไป มือสอดได้ไม่เต็มที่)</li>
-          <li><b>ไม่ดี (Poor Coupling):</b> วัตถุไม่มีที่จับ จับยาก พื้นผิวลื่น รูปทรงแปลกประหลาด ของข้างในขยับไปมา (เช่น ถุงกระสอบใส่น้ำยาง หรือกล่องขนาดใหญ่ที่ไม่มีที่จับและไม่สามารถสอดอุ้งมือเข้าช้อนใต้กล่องได้สะดวก) ทำให้ต้องเกร็งนิ้วมือหรือใช้ท่าทางแปลกๆ ในการยก</li>
-        </ul>
       </div>
     </div>
   </section>
