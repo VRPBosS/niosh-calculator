@@ -40,11 +40,28 @@ const TIPS = {
 
 // LI thresholds (<1, <3, >=3) are also described in the reference tab of index.html — keep in sync.
 // `level` is what gets stored in saved history (kept compatible with older records).
+// `label`/`advice` use the original wording; `short` is for the narrow mobile bar.
 const RISK = {
-  success: { level: 'success', css: 'success', label: 'ความเสี่ยงต่ำ', advice: 'ไม่จำเป็นต้องปรับปรุงงานเพิ่มเติม ควรรักษามาตรการป้องกันที่มีอยู่' },
-  warning: { level: 'warning', css: 'warning', label: 'ความเสี่ยงปานกลาง', advice: 'ควรปรับปรุงวิธีการทำงาน เช่น ลดระยะเอื้อม ลดการยกของสูง ลดความถี่' },
-  danger: { level: 'danger', css: 'danger', label: 'ความเสี่ยงสูง', advice: 'ควรเร่งปรับปรุงวิธีการทำงานทันที ก่อนให้พนักงานกลับมาปฏิบัติงานตามปกติ' },
-  none: { level: 'danger', css: 'danger', label: 'ไม่สามารถยกได้', advice: 'มีตัวคูณเป็น 0 — สภาพงานเกินขอบเขตของสมการ ต้องออกแบบงานใหม่' },
+  success: {
+    level: 'success', css: 'success', short: 'ความเสี่ยงต่ำ',
+    label: 'ความเสี่ยงต่ำ',
+    advice: 'ความเสี่ยงต่ำ (Low Risk) — LI < 1 เป็นงานที่มีความเสี่ยงต่ำ มีโอกาสเกิดอันตรายน้อย ไม่จำเป็นต้องปรับปรุงงานเพิ่มเติม แต่ควรรักษามาตรการป้องกันอันตรายที่มีอยู่',
+  },
+  warning: {
+    level: 'warning', css: 'warning', short: 'ความเสี่ยงปานกลาง',
+    label: 'ความเสี่ยงปานกลาง ควรปรับปรุงวิธีการทำงาน',
+    advice: 'ความเสี่ยงปานกลาง (Moderate Risk) — 1 ≤ LI < 3 เป็นงานที่มีความเสี่ยงเพิ่มขึ้น อาจก่อให้เกิดอันตรายต่อผู้ปฏิบัติงาน จึงควรปรับปรุงวิธีการทำงาน เช่น ลดระยะการเอื้อม ลดการยกของสูง และลดความถี่ในการทำงานซ้ำ ๆ',
+  },
+  danger: {
+    level: 'danger', css: 'danger', short: 'ความเสี่ยงสูง',
+    label: 'ความเสี่ยงสูง ควรเร่งปรับปรุงวิธีการทำงานทันที',
+    advice: 'ความเสี่ยงสูง (High Risk) — LI ≥ 3 เป็นงานที่มีความเสี่ยงสูง อาจก่อให้เกิดอันตรายหรือการบาดเจ็บต่อผู้ปฏิบัติงาน ควรเร่งปรับปรุงวิธีการทำงานทันที ก่อนให้พนักงานกลับมาปฏิบัติงานตามปกติ',
+  },
+  none: {
+    level: 'danger', css: 'danger', short: 'ไม่สามารถยกได้',
+    label: 'ไม่สามารถยกได้',
+    advice: 'มีตัวคูณเป็น 0 — สภาพงานเกินขอบเขตของสมการ ต้องออกแบบงานใหม่',
+  },
 };
 const LEVEL_CSS = { success: 'success', warning: 'warning', danger: 'danger' };
 
@@ -241,7 +258,7 @@ function update() {
   $('barLi').textContent = liText;
   $('barLi').style.color = tone;
   $('barDot').style.background = tone;
-  $('barRiskLabel').textContent = rk.label;
+  $('barRiskLabel').textContent = rk.short;
   checkBar();
 }
 
