@@ -27,7 +27,7 @@ then open `c`. Opening `index.html` directly via `file://` also works since the 
 **Calculation model** (`script.js`): `RWL = LC * HM * VM * DM * AM * FM * CM` (LC is the fixed Load Constant, 23 kg), and `LI = object weight / RWL`. The user no longer types multipliers: the inputs are raw measurements held in the `S` state object — `H`, `V`, `D` (cm) and `A` (degrees) feed HM/VM/DM/AM via the NIOSH sub-formulas (with the standard validity limits, e.g. H > 63 → HM = 0), while FM comes from the frequency chips + duration + (V < 75 / ≥ 75) lookup in the `FM` table, and CM from the coupling choice (`CPL`, also V-dependent). `calc()` computes everything from `S`; `update()` pushes the result into the DOM; any input calls `changed()` → `update()`. There is no framework — controls are built once at load and only their text/classes/styles are updated, so typing never loses focus.
 
 **LI risk thresholds** are duplicated in two places and must be kept in sync if changed:
-- `script.js` `calc()` (`riskKey`) — drives the result card, gauge marker and mobile bar
+- `script.js` `calc()` (`riskKey`) — drives the result card and mobile bar
 - `index.html` reference tab "เกณฑ์การประเมินค่า LI" — static description of the same thresholds
 
 **Design**: the UI follows the Claude Design project "NIOSH Lifting Calculator" (IBM Plex Sans Thai / Mono, numbered cards 01–05, sticky dark result card, breakdown bars, auto improvement tips, mobile bottom bar). The mobile bottom bar (`checkBar()` in `script.js`) shows RWL/LI only when the result `<aside>` has wrapped below the form and is still off-screen.

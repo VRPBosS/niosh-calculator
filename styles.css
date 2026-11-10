@@ -32,10 +32,6 @@
   --danger-light: oklch(0.7 0.16 28);
   --danger-tint: oklch(0.96 0.03 28);
 
-  --g-low: oklch(0.62 0.12 155);
-  --g-mid: oklch(0.7 0.12 80);
-  --g-high: oklch(0.6 0.15 28);
-
   --font: 'IBM Plex Sans Thai', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
 }
@@ -243,19 +239,6 @@ footer {
   font-family: var(--mono); font-size: 38px; font-weight: 500; letter-spacing: -0.02em;
 }
 .hero-unit { font-family: var(--font); font-size: 14px; color: var(--hero-mut); letter-spacing: 0; }
-.gauge-block { display: flex; flex-direction: column; gap: 8px; }
-.gauge-wrap { position: relative; }
-.gauge { height: 10px; border-radius: 5px; display: flex; overflow: hidden; }
-.g-low { flex: 1; background: var(--g-low); }
-.g-mid { flex: 2; background: var(--g-mid); }
-.g-high { flex: 1; background: var(--g-high); }
-.gauge-marker {
-  position: absolute; top: -2px; width: 4px; height: 14px; border-radius: 2px;
-  background: #fff; box-shadow: 0 0 0 2px var(--hero-bg); transform: translateX(-50%);
-  transition: left 0.25s ease;
-}
-.gauge-scale { display: flex; font-family: var(--mono); font-size: 11px; color: var(--hero-mut2); }
-.gauge-scale .s1 { flex: 1; } .gauge-scale .s2 { flex: 2; } .gauge-scale .s3 { flex: 1; }
 .hero-risk { border-top: 1px solid var(--hero-line); padding-top: 18px; display: flex; flex-direction: column; gap: 6px; }
 .risk-line { display: flex; align-items: center; gap: 8px; }
 .risk-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; }

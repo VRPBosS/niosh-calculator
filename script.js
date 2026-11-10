@@ -234,9 +234,6 @@ function update() {
   $('riskDot').style.background = tone;
   $('riskLabel').textContent = rk.label;
   $('riskAdvice').textContent = rk.advice;
-  const liC = isFinite(r.li) ? r.li : 4;
-  const pos = liC <= 1 ? liC * 25 : liC <= 3 ? 25 + (liC - 1) * 25 : Math.min(100, 75 + (liC - 3) * 25);
-  $('gaugeMarker').style.left = pos + '%';
 
   // breakdown + tips
   const minV = Math.min(...MULT_KEYS.map(k => r.m[k]));
