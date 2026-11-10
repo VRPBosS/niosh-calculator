@@ -243,8 +243,7 @@ footer {
   font-family: var(--mono); font-size: 38px; font-weight: 500; letter-spacing: -0.02em;
 }
 .hero-unit { font-family: var(--font); font-size: 14px; color: var(--hero-mut); letter-spacing: 0; }
-.gauge-block { display: flex; flex-direction: column; gap: 8px; }
-.gauge-wrap { position: relative; }
+.gauge-block { position: relative; display: flex; flex-direction: column; gap: 8px; }
 .gauge { height: 10px; border-radius: 5px; display: flex; overflow: hidden; }
 .g-low { flex: 1; background: var(--g-low); }
 .g-mid { flex: 2; background: var(--g-mid); }
