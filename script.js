@@ -325,6 +325,19 @@ function saveHistory(history) {
   try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch { /* ignore */ }
 }
 
+function numOrNull(v) { const n = parseFloat(v); return isNaN(n) ? null : n; }
+const rawNum = v => (typeof v === 'number' ? String(v) : '—');
+const cplLabel = id => (CPL.find(c => c.id === id) || {}).label || '—';
+const durLabel = d => (DURATIONS.find(x => x[0] === d) || [])[1] || '—';
+
+// Raw inputs of a saved record; records saved before raw values were stored have none.
+function rawSummary(r) {
+  if (!r.raw) return '—';
+  const x = r.raw;
+  return `H ${rawNum(x.H)} · V ${rawNum(x.V)} · D ${rawNum(x.D)} · A ${rawNum(x.A)}°<br>` +
+    `${escapeHtml(x.freq)} ครั้ง/นาที · ${escapeHtml(durLabel(x.dur))} · จับ${escapeHtml(cplLabel(x.cpl))}`;
+}
+
 function renderHistory() {
   const history = loadHistory();
   const has = history.length > 0;
@@ -343,6 +356,7 @@ function renderHistory() {
       <td>${r.empId ? escapeHtml(r.empId) : '—'}</td>
       <td>${r.department ? escapeHtml(r.department) : '—'}</td>
       <td class="num">${f2(r.weight)}</td>
+      <td class="mono raw">${rawSummary(r)}</td>
       <td class="mono">${ms}</td>
       <td class="num">${f2(r.rwl)}</td>
       <td class="num li" style="color:${tone}">${liText}</td>
@@ -367,6 +381,10 @@ function saveRecord() {
     department: departmentEl.value.trim(),
     weight: current.W,
     mults: MULT_KEYS.map(k => current.m[k]),
+    raw: {
+      H: numOrNull(S.H), V: numOrNull(S.V), D: numOrNull(S.D), A: numOrNull(S.A),
+      freq: S.freq, dur: S.dur, cpl: S.cpl,
+    },
     rwl: current.rwl,
     li: current.li,
     level: rk.level,
@@ -407,13 +425,17 @@ async function exportHistoryToCsv() {
   const history = loadHistory();
   if (history.length === 0) return;
 
-  const header = ['เวลาที่บันทึก', 'รหัสพนักงาน', 'เพศ', 'อายุงาน (ปี)', 'แผนก', 'น้ำหนัก (kg)', 'HM', 'VM', 'DM', 'AM', 'FM', 'CM', 'RWL (kg)', 'LI', 'ระดับความเสี่ยง', 'ข้อเสนอแนะ'];
+  const header = ['เวลาที่บันทึก', 'รหัสพนักงาน', 'เพศ', 'อายุงาน (ปี)', 'แผนก', 'น้ำหนัก (kg)', 'H (ซม.)', 'V (ซม.)', 'D (ซม.)', 'A (องศา)', 'ความถี่ (ครั้ง/นาที)', 'ระยะเวลา', 'การจับ', 'HM', 'VM', 'DM', 'AM', 'FM', 'CM', 'RWL (kg)', 'LI', 'ระดับความเสี่ยง', 'ข้อเสนอแนะ'];
   const rows = history.map(r => {
     const [hm, vm, dm, am, fm, cm] = r.mults;
     const liText = isFinite(r.li) ? r.li.toFixed(2) : 'inf';
+    const x = r.raw || {};
+    const rawCols = r.raw
+      ? [x.H ?? '', x.V ?? '', x.D ?? '', x.A ?? '', x.freq, durLabel(x.dur), cplLabel(x.cpl)]
+      : ['', '', '', '', '', '', ''];
     return [
       r.savedAtLabel, r.empId || '', r.gender || '', typeof r.tenure === 'number' ? r.tenure.toFixed(1) : '', r.department || '',
-      r.weight.toFixed(2), hm.toFixed(2), vm.toFixed(2), dm.toFixed(2), am.toFixed(2), fm.toFixed(2), cm.toFixed(2), r.rwl.toFixed(2), liText, r.text, r.suggestion || '',
+      r.weight.toFixed(2), ...rawCols, hm.toFixed(2), vm.toFixed(2), dm.toFixed(2), am.toFixed(2), fm.toFixed(2), cm.toFixed(2), r.rwl.toFixed(2), liText, r.text, r.suggestion || '',
     ];
   });
 
